@@ -1,0 +1,117 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id              Int      @id @default(autoincrement())
+  username        String   @unique
+  email           String   @unique
+  avatar          String?
+  bio             String?
+  password        String
+  loginSecret     Int?
+  followings      Company[]    @relation("FollowRelation", references: [id]) //회사 팔로잉 (팔로잉 하는 회사가 올리는 채용 글 읽기)
+  favoritePosts   CompanyPost[] @relation("FavoriteRelation", references: [id])
+  companyPostLikes    CompanyPostLike[]
+  userPostLikes       UserPostLike[]
+  companyOwner    Company?
+  companyPostComments        CompanyPostComment[]
+  userPostComments                UserPostComment[]
+  userPosts       UserPost[]
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model UserPost {
+  id              Int       @id @default(autoincrement())
+  user            User      @relation(fields: [userId], references: [id])
+  userId          Int
+  fileUrl         String?
+  fileKey         String?
+  content         String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  userLikes       UserPostLike[]
+  userPostComments        UserPostComment[]
+}
+
+model UserPostLike {
+  id              Int      @id @default(autoincrement())
+  user            User     @relation(fields: [userId], references: [id])
+  userId          Int      
+  userPost        UserPost    @relation(fields: [userPostId], references: [id]) 
+  userPostId      Int      @unique
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  @@unique([userId, userPostId])
+}
+
+model UserPostComment {
+  id              Int      @id @default(autoincrement())
+  user            User     @relation(fields: [userId], references: [id])
+  userId          Int
+  userPost        UserPost    @relation(fields: [userPostId], references: [id]) 
+  userPostId      Int 
+  payload         String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+//User와 1:1관계 (회사 오너만 / 운영자 승인 후 연결)
+model Company {
+    id            Int      @id @default(autoincrement())
+    user          User     @relation(fields: [userId], references: [id])
+    userId        Int      @unique
+    followers     User[]    @relation("FollowRelation", references: [id])
+    companyName   String
+    address       String
+    sector        String
+    email         String   @unique
+    aboutUs       String   // 회사 소개
+    contactNumber String
+    companyPosts  CompanyPost[]
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime @updatedAt
+}
+
+model CompanyPost {
+  id              Int       @id @default(autoincrement())
+  favoritedUser   User[]      @relation("FavoriteRelation", references: [id])
+  company         Company      @relation(fields: [companyId], references: [id])
+  companyId       Int       
+  fileUrl         String?
+  fileKey         String?
+  title           String
+  content         String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  companyLikes    CompanyPostLike[]
+  companyPostComments        CompanyPostComment[]
+}
+
+model CompanyPostLike {
+  id              Int      @id @default(autoincrement())
+  user            User     @relation(fields: [userId], references: [id])
+  userId          Int   
+  companyPost     CompanyPost    @relation(fields: [companyPostId], references: [id]) 
+  companyPostId   Int      
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  @@unique([userId, companyPostId])
+}
+
+model CompanyPostComment {
+  id              Int      @id @default(autoincrement())
+  user            User     @relation(fields: [userId], references: [id])
+  userId          Int
+  companyPost     CompanyPost    @relation(fields: [companyPostId], references: [id]) 
+  companyPostId   Int 
+  payload         String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}

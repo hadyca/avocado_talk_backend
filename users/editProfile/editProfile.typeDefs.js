@@ -1,0 +1,12 @@
+import { gql } from "apollo-server";
+
+export default gql`
+  type Mutation {
+    editProfile(
+      username: String
+      password: String
+      bio: String
+      avatar: Upload
+    ): MutationResponse!
+  }
+`;
