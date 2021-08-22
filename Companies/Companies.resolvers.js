@@ -3,7 +3,6 @@ import client from "../client";
 export default {
   Company: {
     isMyCompany: ({ id }, _, { loggedInUser }) => {
-      console.log(loggedInUser);
       if (!loggedInUser) {
         return false;
       }

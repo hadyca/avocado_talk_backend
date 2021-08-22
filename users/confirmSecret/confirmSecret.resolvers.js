@@ -7,7 +7,6 @@ export default {
       const user = await client.user.findFirst({
         where: { email },
       });
-      console.log(user);
       if (user.loginSecret === secret) {
         const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY);
         return {
