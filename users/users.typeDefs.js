@@ -11,7 +11,7 @@ export default gql`
     followings: [Company]
     favoritePosts: [CompanyPost]
     totalFollowings: Int!
-    # userPosts: [UserPost]
+    userPosts: [UserPost]
     createdAt: String!
     updatedAt: String!
   }
