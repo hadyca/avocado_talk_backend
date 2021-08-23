@@ -25,21 +25,27 @@ export default {
           };
         }
 
-        await deleteFile(oldPost.fileKey); //aws 파일 삭제
-        const editedAwsFileUrl = await uploadToS3(
-          fileUrl,
-          loggedInUser.id,
-          "companyPost"
-        );
+        let editedAwsFileUrl = null;
+        if (fileUrl) {
+          await deleteFile(oldPost.fileKey);
+          editedAwsFileUrl = await uploadToS3(
+            fileUrl,
+            loggedInUser.id,
+            "companyPost"
+          );
+        }
+
         await client.companyPost.update({
           where: {
             id: companyPostId,
           },
           data: {
-            fileUrl: editedAwsFileUrl.Location,
-            fileKey: editedAwsFileUrl.Key,
             title,
             content,
+            ...(editedAwsFileUrl && {
+              fileUrl: editedAwsFileUrl.Location,
+              fileKey: editedAwsFileUrl.Key,
+            }),
           },
         });
         return {

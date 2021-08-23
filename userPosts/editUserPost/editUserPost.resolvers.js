@@ -19,21 +19,26 @@ export default {
             error: "게시글을 찾을 수 없습니다.",
           };
         }
+        let editedAwsFileUrl = null;
+        if (fileUrl) {
+          await deleteFile(oldPost.fileKey);
+          editedAwsFileUrl = await uploadToS3(
+            fileUrl,
+            loggedInUser.id,
+            "userPost"
+          );
+        }
 
-        await deleteFile(oldPost.fileKey); //aws 파일 삭제
-        const editedAwsFileUrl = await uploadToS3(
-          fileUrl,
-          loggedInUser.id,
-          "userPost"
-        );
         await client.userPost.update({
           where: {
             id: userPostId,
           },
           data: {
-            fileUrl: editedAwsFileUrl.Location,
-            fileKey: editedAwsFileUrl.Key,
             content,
+            ...(editedAwsFileUrl && {
+              fileUrl: editedAwsFileUrl.Location,
+              fileKey: editedAwsFileUrl.Key,
+            }),
           },
         });
         return {
