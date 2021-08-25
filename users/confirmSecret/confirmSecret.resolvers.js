@@ -8,6 +8,14 @@ export default {
         where: { email },
       });
       if (user.loginSecret === secret) {
+        await client.user.update({
+          where: {
+            email,
+          },
+          data: {
+            secretConfirm: true,
+          },
+        });
         const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY);
         return {
           ok: true,

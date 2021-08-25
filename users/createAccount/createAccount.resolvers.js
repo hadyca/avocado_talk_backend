@@ -22,13 +22,28 @@ export default {
           throw new Error("이미 사용 중인 Email주소가 있습니다.");
         }
         const uglyPassword = await bcrypt.hash(password, 10);
-        await client.user.create({
+        const newUser = await client.user.create({
           data: {
             username,
             email,
             password: uglyPassword,
           },
         });
+        //인증번호 안넣으면 1시간 지나면 계정이 삭제됨.
+        setTimeout(async () => {
+          const newUser = await client.user.findUnique({
+            where: {
+              email,
+            },
+          });
+          if (newUser.secretConfirm === false) {
+            await client.user.delete({
+              where: {
+                id: newUser.id,
+              },
+            });
+          }
+        }, 60 * 60 * 1000);
         return {
           ok: true,
         };
