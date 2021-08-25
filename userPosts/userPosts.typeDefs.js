@@ -8,15 +8,15 @@ export default gql`
     fileKey: String
     content: String!
     totalUserPostLikes: Int!
-    # userPostComments: [UserPostComment]
+    userPostComments: [UserPostComment]
     createdAt: String!
     updatedAt: String!
   }
 
-    type UserPostLike {
-      id: String!
-      userPost: UserPost!
-      createdAt: String!
-      updatedAt: String!
-    }
+  type UserPostLike {
+    id: String!
+    userPost: UserPost!
+    createdAt: String!
+    updatedAt: String!
+  }
 `;

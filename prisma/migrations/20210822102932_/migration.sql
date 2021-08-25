@@ -17,8 +17,9 @@ CREATE TABLE "User" (
 CREATE TABLE "UserPost" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
-    "file" TEXT NOT NULL,
-    "content" TEXT,
+    "fileUrl" TEXT,
+    "fileKey" TEXT,
+    "content" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -53,11 +54,14 @@ CREATE TABLE "Company" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
     "companyName" TEXT NOT NULL,
-    "address" TEXT NOT NULL,
+    "addressStep1" TEXT NOT NULL,
+    "addressStep2" TEXT NOT NULL,
+    "addressStep3" TEXT NOT NULL,
     "sector" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "aboutUs" TEXT NOT NULL,
     "contactNumber" TEXT NOT NULL,
+    "totalEmployees" INTEGER,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -68,7 +72,8 @@ CREATE TABLE "Company" (
 CREATE TABLE "CompanyPost" (
     "id" SERIAL NOT NULL,
     "companyId" INTEGER NOT NULL,
-    "file" TEXT NOT NULL,
+    "fileUrl" TEXT,
+    "fileKey" TEXT,
     "title" TEXT NOT NULL,
     "content" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -122,10 +127,16 @@ CREATE UNIQUE INDEX "User.email_unique" ON "User"("email");
 CREATE UNIQUE INDEX "UserPostLike.userPostId_unique" ON "UserPostLike"("userPostId");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "UserPostLike.userId_userPostId_unique" ON "UserPostLike"("userId", "userPostId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Company.userId_unique" ON "Company"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Company.email_unique" ON "Company"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "CompanyPostLike.userId_companyPostId_unique" ON "CompanyPostLike"("userId", "companyPostId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_FollowRelation_AB_unique" ON "_FollowRelation"("A", "B");
