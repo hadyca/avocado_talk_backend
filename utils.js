@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import mg from "nodemailer-mailgun-transport";
+// import mg from "nodemailer-mailgun-transport";
 
 export const generateSecret = (min, max) => {
   const randomNumber = Math.floor(Math.random() * (max - min) + min);
@@ -8,13 +8,16 @@ export const generateSecret = (min, max) => {
 
 const sendMail = (email) => {
   const options = {
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
     auth: {
-      api_key: process.env.MAILGUN_API,
-      domain: process.env.MAILGUN_DOMAIN,
+      user: process.env.NODEMAILER_USER,
+      pass: process.env.NODEMAILER_PASS,
     },
   };
-
-  const nodemailerMailgun = nodemailer.createTransport(mg(options));
+  const nodemailerMailgun = nodemailer.createTransport(options);
   return nodemailerMailgun.sendMail(email, (err, info) => {
     if (err) {
       console.log(`Error: ${err}`);
