@@ -6,7 +6,8 @@ CREATE TABLE "User" (
     "avatar" TEXT,
     "bio" TEXT,
     "password" TEXT NOT NULL,
-    "loginSecret" INTEGER,
+    "secretConfirm" BOOLEAN NOT NULL DEFAULT false,
+    "loginSecret" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 

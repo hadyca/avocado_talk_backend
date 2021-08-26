@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import client from "../../client";
+import { generateSecret, sendSecretMail } from "../../utils";
 
 export default {
   Mutation: {
@@ -28,6 +29,12 @@ export default {
             email,
             password: uglyPassword,
           },
+        });
+        const loginSecret = generateSecret(111111, 999999);
+        await sendSecretMail(email, loginSecret);
+        const updatedUser = await client.user.update({
+          where: { email },
+          data: { loginSecret },
         });
         //인증번호 안넣으면 1시간 지나면 계정이 삭제됨.
         setTimeout(async () => {
