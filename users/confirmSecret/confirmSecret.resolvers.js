@@ -11,7 +11,7 @@ export default {
         await client.user.update({
           where: {
             email,
-          },
+          },t6y75uiop[p-i9o0uuyt6r54231`]
           data: {
             secretConfirm: true,
           },
