@@ -34,7 +34,7 @@ export const sendSecretMail = (address, secret) => {
     subject: "🔒Login Secret for 아보카도talk!🔒",
     html: `<h1>hello! your login secret is ${secret}.</h1>
     <h2>Copy paste on the web/app to Login</h2>
-    <h3> 1시간 이내에 인증 번호를 입력 하지 않으면 계정이 삭제 됩니다.<h3>`,
+    <h3> 5분 이내에 인증 번호를 입력 하지 않으면 계정이 삭제 됩니다.<h3>`,
   };
   return sendMail(email);
 };

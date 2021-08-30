@@ -14,7 +14,7 @@ model User {
   avatar          String?
   bio             String?
   password        String
-  proceedState    Int @default(0)
+  authCode        Int
   loginSecret     Int?
   followings      Company[]    @relation("FollowRelation", references: [id]) //회사 팔로잉 (팔로잉 하는 회사가 올리는 채용 글 읽기)
   favoritePosts   CompanyPost[] @relation("FavoriteRelation", references: [id])
