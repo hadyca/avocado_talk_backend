@@ -28,7 +28,7 @@ export default {
           return {
             ok: false,
             error:
-              "이미 사용중인 유저명이 있습니다. 다른 유저명을 사용해보세요!",
+              "이미 사용중인 유저명이 있습니다. 다른 유저명을 사용해 보세요!",
           };
         }
         const uglyPassword = await bcrypt.hash(password, 10);
