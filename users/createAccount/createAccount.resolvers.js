@@ -43,7 +43,6 @@ export default {
             authCode: 1,
           },
         });
-        //인증번호 안넣고 1시간 지나면 계정이 삭제됨.
         setTimeout(async () => {
           if (newUser.authCode === 1) {
             await client.user.delete({
@@ -52,7 +51,7 @@ export default {
               },
             });
           }
-        }, 60 * 60 * 1000);
+        }, 10000);
         return {
           ok: true,
         };
