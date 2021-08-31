@@ -13,7 +13,7 @@ export default {
             email,
           },
           data: {
-            secretConfirm: true,
+            authCode: 3,
           },
         });
         const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY);
@@ -24,7 +24,7 @@ export default {
       } else {
         return {
           ok: false,
-          error: "시크릿 번호가 일치 하지 않아요",
+          error: "인증 번호가 일치 하지 않아요",
         };
       }
     },

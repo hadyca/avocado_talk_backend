@@ -3,7 +3,7 @@ import nodemailer from "nodemailer";
 
 export const generateSecret = (min, max) => {
   const randomNumber = Math.floor(Math.random() * (max - min) + min);
-  return randomNumber;
+  return String(randomNumber);
 };
 
 const sendMail = (email) => {
@@ -29,12 +29,11 @@ const sendMail = (email) => {
 
 export const sendSecretMail = (address, secret) => {
   const email = {
-    from: "avocado@avocadoTest.com",
+    from: "AvocadoTalkTeam@gmail.com",
     to: address,
     subject: "🔒Login Secret for 아보카도talk!🔒",
     html: `<h1>hello! your login secret is ${secret}.</h1>
-    <h2>Copy paste on the web/app to Login</h2>
-    <h3> 5분 이내에 인증 번호를 입력 하지 않으면 계정이 삭제 됩니다.<h3>`,
+    <h2>Copy paste on the web/app to Login</h2>`,
   };
   return sendMail(email);
 };
