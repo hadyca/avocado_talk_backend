@@ -4,7 +4,7 @@ import { generateSecret, sendSecretMail } from "../../utils";
 
 export default {
   Mutation: {
-    createAccount: async (_, { username, email, password }) => {
+    createAccount: async (_, { email, username, password }) => {
       try {
         const existingEmail = await client.user.findFirst({
           where: {
