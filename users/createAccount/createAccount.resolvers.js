@@ -51,7 +51,7 @@ export default {
               },
             });
           }
-        }, 10000);
+        }, 300000);
         return {
           ok: true,
         };
