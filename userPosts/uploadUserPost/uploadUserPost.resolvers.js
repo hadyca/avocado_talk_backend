@@ -5,7 +5,7 @@ import { protectedResolver } from "../../users/users.utils";
 export default {
   Mutation: {
     uploadUserPost: protectedResolver(
-      async (_, { fileUrl, content }, { loggedInUser }) => {
+      async (_, { fileUrl, title, content }, { loggedInUser }) => {
         const awsFileUrl = await uploadToS3(
           fileUrl,
           loggedInUser.id,
@@ -16,6 +16,7 @@ export default {
           data: {
             fileUrl: awsFileUrl.Location,
             fileKey: awsFileUrl.Key,
+            title,
             content,
             user: {
               connect: { id: loggedInUser.id },
