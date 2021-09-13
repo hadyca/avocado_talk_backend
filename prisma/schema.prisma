@@ -91,6 +91,7 @@ model CompanyPost {
   companyId       Int       
   fileUrl         String?
   fileKey         String?
+  postSector      String
   title           String
   content         String
   createdAt       DateTime  @default(now())

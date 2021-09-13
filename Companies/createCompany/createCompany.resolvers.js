@@ -6,7 +6,17 @@ export default {
     createCompany: protectedResolver(
       async (
         _,
-        { companyName, email, sector, aboutUs, contactNumber },
+        {
+          companyName,
+          email,
+          sector,
+          aboutUs,
+          contactNumber,
+          addressStep1,
+          addressStep2,
+          addressStep3,
+          totalEmployees,
+        },
         { loggedInUser }
       ) => {
         try {
@@ -25,10 +35,13 @@ export default {
               sector,
               aboutUs,
               contactNumber,
+              addressStep1,
+              addressStep2,
+              addressStep3,
+              totalEmployees,
               userId: loggedInUser.id,
             },
           });
-          await client.com;
           return {
             ok: true,
           };

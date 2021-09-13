@@ -6,6 +6,7 @@ export default gql`
       fileUrl: Upload
       title: String!
       content: String!
+      postSector: String!
     ): CompanyPost
   }
 `;

@@ -8,6 +8,10 @@ export default gql`
       sector: String!
       aboutUs: String!
       contactNumber: String!
+      addressStep1: String!
+      addressStep2: String!
+      addressStep3: String!
+      totalEmployees: Int
     ): MutationResponse!
   }
 `;

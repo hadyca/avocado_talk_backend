@@ -6,6 +6,7 @@ export default gql`
     company: Company!
     fileUrl: String
     fileKey: String
+    postSector: String!
     title: String!
     content: String!
     totalCompanyPostLikes: Int!

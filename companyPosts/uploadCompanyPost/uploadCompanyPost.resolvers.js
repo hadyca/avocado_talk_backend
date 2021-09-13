@@ -6,19 +6,25 @@ import { protectedResolver } from "../../users/users.utils";
 export default {
   Mutation: {
     uploadCompanyPost: protectedResolver(
-      async (_, { fileUrl, title, content }, { loggedInUser }) => {
-        const awsFileUrl = await uploadToS3(
-          fileUrl,
-          loggedInUser.id,
-          "companyPost"
-        );
+      async (_, { fileUrl, title, content, postSector }, { loggedInUser }) => {
+        let awsFileUrl = null;
+        if (fileUrl) {
+          awsFileUrl = await uploadToS3(
+            fileUrl,
+            loggedInUser.id,
+            "companyPost"
+          );
+        }
         const uesrCompany = await getUserCompany(loggedInUser.id);
         return client.companyPost.create({
           data: {
-            fileUrl: awsFileUrl.Location,
-            fileKey: awsFileUrl.Key,
+            ...(awsFileUrl && {
+              fileUrl: awsFileUrl.Location,
+              fileKey: awsFileUrl.Key,
+            }),
             title,
             content,
+            postSector,
             company: {
               connect: { id: uesrCompany.id },
             },

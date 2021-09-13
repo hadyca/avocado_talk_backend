@@ -2,12 +2,17 @@ import client from "../../client";
 
 export default {
   Query: {
-    searchCompanyPosts: (_, { addressStep2 }) =>
+    searchCompanyPosts: (_, { addressStep2, postSector }) =>
       client.companyPost.findMany({
         where: {
-          company: {
-            addressStep2,
-          },
+          OR: [
+            {
+              company: {
+                addressStep2,
+              },
+              postSector,
+            },
+          ],
         },
       }),
   },
