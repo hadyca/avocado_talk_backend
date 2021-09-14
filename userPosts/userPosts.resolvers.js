@@ -10,5 +10,11 @@ export default {
     totalUserPostLikes: ({ id }) => {
       return client.userPostLike.count({ where: { userPostId: id } });
     },
+    isMine: ({ userId }, _, { loggedInUser }) => {
+      if (!loggedInUser) {
+        return false;
+      }
+      return userId === loggedInUser.id;
+    },
   },
 };

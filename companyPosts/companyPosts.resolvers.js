@@ -10,5 +10,11 @@ export default {
     totalCompanyPostLikes: ({ id }) => {
       return client.companyPostLike.count({ where: { companyPostId: id } });
     },
+    // isMine: ({ companyId }, _, { loggedInUser }) => {
+    //   if (!loggedInUser) {
+    //     return false;
+    //   }
+    //   return client.company.findUnique({ where: { userId: loggedInUser.id } }).
+    // },
   },
 };

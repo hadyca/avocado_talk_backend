@@ -88,7 +88,7 @@ model CompanyPost {
   id              Int       @id @default(autoincrement())
   favoritedUser   User[]      @relation("FavoriteRelation", references: [id])
   company         Company      @relation(fields: [companyId], references: [id])
-  companyId       Int       
+  companyId       Int    
   fileUrl         String?
   fileKey         String?
   postSector      String
