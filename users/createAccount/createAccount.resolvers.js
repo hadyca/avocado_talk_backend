@@ -33,7 +33,6 @@ export default {
         }
         const uglyPassword = await bcrypt.hash(password, 10);
         const loginSecret = generateSecret(111111, 999999);
-        console.log(typeof loginSecret);
         await sendSecretMail(email, loginSecret);
         const newUser = await client.user.create({
           data: {
