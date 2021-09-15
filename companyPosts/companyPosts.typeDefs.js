@@ -14,6 +14,7 @@ export default gql`
     createdAt: String!
     updatedAt: String!
     isMine: Boolean!
+    isLiked: Boolean!
   }
 
   type CompanyPostLike {
