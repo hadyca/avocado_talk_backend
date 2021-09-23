@@ -1,3 +1,5 @@
+import client from "../client";
+
 export default {
   CompanyPostComment: {
     isMine: ({ userId }, _, { loggedInUser }) => {

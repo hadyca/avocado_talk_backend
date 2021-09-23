@@ -7,6 +7,11 @@ export default {
         where: { id: userId },
       });
     },
+    userPostComments: ({ id }) => {
+      return client.userPostComment.findMany({
+        where: { userPostId: id },
+      });
+    },
     totalUserPostLikes: ({ id }) => {
       return client.userPostLike.count({ where: { userPostId: id } });
     },

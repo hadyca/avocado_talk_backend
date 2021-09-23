@@ -1,11 +1,19 @@
+import client from "../client";
+
 export default {
-    UserPostComment: {
-      isMine: ({ userId }, _, { loggedInUser }) => {
-        if (!loggedInUser) {
-          return false;
-        }
-        return userId === loggedInUser.id;
-      },
+  UserPostComment: {
+    isMine: ({ userId }, _, { loggedInUser }) => {
+      if (!loggedInUser) {
+        return false;
+      }
+      return userId === loggedInUser.id;
     },
-  };
-  
+    user: ({ userId }) => {
+      return client.user.findUnique({
+        where: {
+          id: userId,
+        },
+      });
+    },
+  },
+};
