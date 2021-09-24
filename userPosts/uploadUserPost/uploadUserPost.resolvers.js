@@ -6,24 +6,36 @@ export default {
   Mutation: {
     uploadUserPost: protectedResolver(
       async (_, { fileUrl, title, content }, { loggedInUser }) => {
-        let awsFileUrl = null;
         if (fileUrl) {
-          awsFileUrl = await uploadToS3(fileUrl, loggedInUser.id, "userPost");
+          await fileUrl.map(async (file) => {
+            let awsFileUrl = [];
+            awsFileUrl = await uploadToS3(file, loggedInUser.id, "userPost");
+            await client.userPost.create({
+              data: {
+                ...(awsFileUrl && {
+                  file: {
+                    create: {
+                      fileUrl: awsFileUrl.Location,
+                      fileKey: awsFileUrl.Key,
+                    },
+                  },
+                }),
+                title,
+                content,
+                user: {
+                  connect: { id: loggedInUser.id },
+                },
+              },
+            });
+          });
+          return {
+            ok: true,
+          };
+        } else {
+          return {
+            ok: false,
+          };
         }
-
-        return client.userPost.create({
-          data: {
-            ...(awsFileUrl && {
-              fileUrl: awsFileUrl.Location,
-              fileKey: awsFileUrl.Key,
-            }),
-            title,
-            content,
-            user: {
-              connect: { id: loggedInUser.id },
-            },
-          },
-        });
       }
     ),
   },

@@ -4,8 +4,7 @@ export default gql`
   type UserPost {
     id: String!
     user: User!
-    fileUrl: String
-    fileKey: String
+    file: [File]
     title: String!
     content: String!
     totalUserPostLikes: Int!
@@ -21,5 +20,11 @@ export default gql`
     userPost: UserPost!
     createdAt: String!
     updatedAt: String!
+  }
+
+  type File {
+    id: String!
+    fileUrl: String!
+    fileKey: String!
   }
 `;

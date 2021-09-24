@@ -32,8 +32,7 @@ model UserPost {
   id              Int       @id @default(autoincrement())
   user            User      @relation(fields: [userId], references: [id])
   userId          Int
-  fileUrl         String?
-  fileKey         String?
+  file            File[]
   title           String
   content         String
   createdAt       DateTime  @default(now())
@@ -89,8 +88,7 @@ model CompanyPost {
   favoritedUser   User[]      @relation("FavoriteRelation", references: [id])
   company         Company      @relation(fields: [companyId], references: [id])
   companyId       Int    
-  fileUrl         String?
-  fileKey         String?
+  file            File[]
   postSector      String
   title           String
   content         String
@@ -120,4 +118,14 @@ model CompanyPostComment {
   payload         String
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+}
+
+model File {
+  id              Int      @id @default(autoincrement())
+  fileUrl         String
+  fileKey         String
+  userPost        UserPost?    @relation(fields: [userPostId], references: [id]) 
+  userPostId      Int?
+  companyPost     CompanyPost?    @relation(fields: [companyPostId], references: [id])
+  companyPostId   Int?
 }
