@@ -7,23 +7,31 @@ export default {
     uploadUserPost: protectedResolver(
       async (_, { fileUrl, title, content }, { loggedInUser }) => {
         if (fileUrl) {
-          await fileUrl.map(async (file) => {
-            let awsFileUrl = [];
-            awsFileUrl = await uploadToS3(file, loggedInUser.id, "userPost");
-            await client.userPost.create({
+          const newPost = await client.userPost.create({
+            data: {
+              title,
+              content,
+              user: {
+                connect: {
+                  id: loggedInUser.id,
+                },
+              },
+            },
+          });
+          await fileUrl.forEach(async (value) => {
+            const awsFileUrl = await uploadToS3(
+              value,
+              loggedInUser.id,
+              "userPost"
+            );
+            await client.file.create({
               data: {
-                ...(awsFileUrl && {
-                  file: {
-                    create: {
-                      fileUrl: awsFileUrl.Location,
-                      fileKey: awsFileUrl.Key,
-                    },
+                fileUrl: awsFileUrl.Location,
+                fileKey: awsFileUrl.Key,
+                userPost: {
+                  connect: {
+                    id: newPost.id,
                   },
-                }),
-                title,
-                content,
-                user: {
-                  connect: { id: loggedInUser.id },
                 },
               },
             });
@@ -32,8 +40,19 @@ export default {
             ok: true,
           };
         } else {
+          await client.userPost.create({
+            data: {
+              title,
+              content,
+              user: {
+                connect: {
+                  id: loggedInUser.id,
+                },
+              },
+            },
+          });
           return {
-            ok: false,
+            ok: true,
           };
         }
       }

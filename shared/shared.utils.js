@@ -22,11 +22,11 @@ export const uploadToS3 = async (file, userId, folderName) => {
   return data;
 };
 
-export const deleteFile = async (Key) => {
+export const deleteFile = async (key) => {
   await new AWS.S3()
     .deleteObject({
       Bucket: "avocadotalkbucket",
-      Key,
+      Key: key,
     })
     .promise();
 

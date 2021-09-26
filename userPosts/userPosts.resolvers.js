@@ -12,6 +12,13 @@ export default {
         where: { userPostId: id },
       });
     },
+    file: ({ id }) => {
+      return client.file.findMany({
+        where: {
+          userPostId: id,
+        },
+      });
+    },
     totalUserPostLikes: ({ id }) => {
       return client.userPostLike.count({ where: { userPostId: id } });
     },
