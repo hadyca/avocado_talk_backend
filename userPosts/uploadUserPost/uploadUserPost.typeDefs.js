@@ -6,6 +6,6 @@ export default gql`
       fileUrl: [Upload]
       title: String!
       content: String!
-    ): MutationResponse!
+    ): UserPost
   }
 `;

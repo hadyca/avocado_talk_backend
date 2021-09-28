@@ -36,11 +36,9 @@ export default {
               },
             });
           });
-          return {
-            ok: true,
-          };
+          return newPost;
         } else {
-          await client.userPost.create({
+          const newPost = await client.userPost.create({
             data: {
               title,
               content,
@@ -51,9 +49,7 @@ export default {
               },
             },
           });
-          return {
-            ok: true,
-          };
+          return newPost;
         }
       }
     ),
