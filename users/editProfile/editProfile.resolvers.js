@@ -12,6 +12,9 @@ const resolverFn = async (
   if (avatar) {
     avatarUrl = await uploadToS3(avatar, loggedInUser.id, "avatar");
   }
+
+  console.log(typeof avatarUrl);
+
   let uglyPassword = null;
   if (newPassword) {
     uglyPassword = await bcrypt.hash(newPassword, 10);
@@ -33,10 +36,10 @@ const resolverFn = async (
       ...(newUsername && { username: newUsername }),
       bio,
       ...(uglyPassword && { password: uglyPassword }),
-      ...(avatarUrl && { avatar: avatarUrl }),
+      ...(avatarUrl && { avatar: avatarUrl.Location }),
     },
   });
-
+  console.log(updatedUser);
   if (updatedUser.id) {
     return {
       ok: true,
