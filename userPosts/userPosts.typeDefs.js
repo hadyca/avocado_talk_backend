@@ -8,6 +8,7 @@ export default gql`
     title: String!
     content: String!
     totalUserPostLikes: Int!
+    totalUserPostComments: Int!
     userPostComments: [UserPostComment]
     createdAt: String!
     updatedAt: String!

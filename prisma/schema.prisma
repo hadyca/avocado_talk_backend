@@ -46,7 +46,7 @@ model UserPostLike {
   user            User     @relation(fields: [userId], references: [id])
   userId          Int      
   userPost        UserPost    @relation(fields: [userPostId], references: [id]) 
-  userPostId      Int      @unique
+  userPostId      Int      
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   @@unique([userId, userPostId])
