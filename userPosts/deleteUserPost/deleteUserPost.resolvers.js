@@ -3,30 +3,30 @@ import { protectedResolver } from "../../users/users.utils";
 
 export default {
   Mutation: {
-    deleteUserPostComment: protectedResolver(
-      async (_, { commentId }, { loggedInUser }) => {
-        const comment = await client.userPostComment.findUnique({
+    deleteUserPost: protectedResolver(
+      async (_, { userPostId }, { loggedInUser }) => {
+        const post = await client.userPost.findUnique({
           where: {
-            id: commentId,
+            id: userPostId,
           },
           select: {
             userId: true,
           },
         });
-        if (!comment) {
+        if (!post) {
           return {
             ok: false,
-            error: "코멘트를 찾을 수 없습니다.",
+            error: "해당 POST 를 찾을 수 없습니다.",
           };
-        } else if (comment.userId !== loggedInUser.id) {
+        } else if (post.userId !== loggedInUser.id) {
           return {
             ok: false,
             error: "권한이 없습니다.",
           };
         } else {
-          await client.userPostComment.update({
+          await client.userPost.update({
             where: {
-              id: commentId,
+              id: userPostId,
             },
             data: {
               deleted: true,

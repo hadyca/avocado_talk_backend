@@ -9,5 +9,6 @@ export default gql`
     isMine: Boolean!
     createdAt: String!
     updatedAt: String!
+    deleted: Boolean!
   }
 `;

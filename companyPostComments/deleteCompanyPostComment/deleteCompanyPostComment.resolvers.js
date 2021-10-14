@@ -24,9 +24,12 @@ export default {
             error: "권한이 없습니다.",
           };
         } else {
-          await client.companyPostComment.delete({
+          await client.companyPostComment.update({
             where: {
               id: commentId,
+            },
+            data: {
+              deleted: true,
             },
           });
           return {

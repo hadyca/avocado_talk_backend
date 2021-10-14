@@ -11,7 +11,7 @@ export default {
         { companyPostId, fileUrl, title, content },
         { loggedInUser }
       ) => {
-        const userCompany = getUserCompany(loggedInUser.id);
+        const userCompany = await getUserCompany(loggedInUser.id);
         const oldPost = await client.companyPost.findFirst({
           where: {
             id: companyPostId,
