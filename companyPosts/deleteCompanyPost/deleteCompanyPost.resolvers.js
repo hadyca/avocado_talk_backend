@@ -7,7 +7,6 @@ export default {
     deleteCompanyPost: protectedResolver(
       async (_, { companyPostId }, { loggedInUser }) => {
         const userCompany = await getUserCompany(loggedInUser.id);
-        console.log(userCompany);
         const oldPost = await client.companyPost.findFirst({
           where: {
             id: companyPostId,
