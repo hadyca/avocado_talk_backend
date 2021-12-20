@@ -6,24 +6,32 @@ export default {
   Mutation: {
     uploadUserPost: protectedResolver(
       async (_, { fileUrl, title, content }, { loggedInUser }) => {
-        if (fileUrl) {
-          const newPost = await client.userPost.create({
-            data: {
-              title,
-              content,
-              user: {
-                connect: {
-                  id: loggedInUser.id,
+        try {
+          if (fileUrl) {
+            const newPost = await client.userPost.create({
+              data: {
+                title,
+                content,
+                user: {
+                  connect: {
+                    id: loggedInUser.id,
+                  },
                 },
               },
-            },
-          });
-          await fileUrl.forEach(async (value) => {
+            });
+            // await fileUrl.forEach(async (value) => {
+            //   const awsFileUrl = await uploadToS3(
+            //     value,
+            //     loggedInUser.id,
+            //     "userPost"
+            //   );  배열형식
+
             const awsFileUrl = await uploadToS3(
-              value,
+              fileUrl,
               loggedInUser.id,
               "userPost"
             );
+
             await client.file.create({
               data: {
                 fileUrl: awsFileUrl.Location,
@@ -35,21 +43,23 @@ export default {
                 },
               },
             });
-          });
-          return newPost;
-        } else {
-          const newPost = await client.userPost.create({
-            data: {
-              title,
-              content,
-              user: {
-                connect: {
-                  id: loggedInUser.id,
+            return newPost;
+          } else {
+            const newPost = await client.userPost.create({
+              data: {
+                title,
+                content,
+                user: {
+                  connect: {
+                    id: loggedInUser.id,
+                  },
                 },
               },
-            },
-          });
-          return newPost;
+            });
+            return newPost;
+          }
+        } catch (e) {
+          return e;
         }
       }
     ),
