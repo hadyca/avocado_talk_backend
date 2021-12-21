@@ -7,8 +7,8 @@ export default {
     uploadUserPost: protectedResolver(
       async (_, { fileUrl, title, content }, { loggedInUser }) => {
         console.log(fileUrl, "최초 fileUrl값");
-        const test = await fileUrl;
-        console.log(test);
+        const fileUrl1 = await Promise.all(fileUrl).then((res) => res);
+        console.log(fileUrl1, "프라미스");
         try {
           if (fileUrl) {
             const newPost = await client.userPost.create({
