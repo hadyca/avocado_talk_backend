@@ -6,6 +6,9 @@ export default {
   Mutation: {
     uploadUserPost: protectedResolver(
       async (_, { fileUrl, title, content }, { loggedInUser }) => {
+        console.log(fileUrl, "최초 fileUrl값");
+        const test = await fileUrl;
+        console.log(test);
         try {
           if (fileUrl) {
             const newPost = await client.userPost.create({
@@ -19,29 +22,25 @@ export default {
                 },
               },
             });
-            // await fileUrl.forEach(async (value) => {
-            //   const awsFileUrl = await uploadToS3(
-            //     value,
-            //     loggedInUser.id,
-            //     "userPost"
-            //   );  배열형식
-
-            const awsFileUrl = await uploadToS3(
-              fileUrl,
-              loggedInUser.id,
-              "userPost"
-            );
-
-            await client.file.create({
-              data: {
-                fileUrl: awsFileUrl.Location,
-                fileKey: awsFileUrl.Key,
-                userPost: {
-                  connect: {
-                    id: newPost.id,
+            await fileUrl.map(async (value) => {
+              console.log(value, "value이다");
+              const awsFileUrl = await uploadToS3(
+                value,
+                loggedInUser.id,
+                "userPost"
+              );
+              console.log(awsFileUrl, "aws이다");
+              await client.file.create({
+                data: {
+                  fileUrl: awsFileUrl.Location,
+                  fileKey: awsFileUrl.Key,
+                  userPost: {
+                    connect: {
+                      id: newPost.id,
+                    },
                   },
                 },
-              },
+              });
             });
             return newPost;
           } else {
@@ -58,8 +57,8 @@ export default {
             });
             return newPost;
           }
-        } catch (e) {
-          return e;
+        } catch (error) {
+          return error;
         }
       }
     ),
