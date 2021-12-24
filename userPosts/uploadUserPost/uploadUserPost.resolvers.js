@@ -7,7 +7,7 @@ export default {
     uploadUserPost: protectedResolver(
       async (_, { fileUrl, title, content }, { loggedInUser }) => {
         console.log(fileUrl, "최초 fileUrl값");
-        const fileUrl1 = await Promise.all(fileUrl).then((res) => res);
+        const fileUrl1 = await Promise.all(fileUrl).then();
         console.log(fileUrl1, "프라미스");
         try {
           if (fileUrl) {
@@ -22,26 +22,29 @@ export default {
                 },
               },
             });
-            await fileUrl.map(async (value) => {
-              console.log(value, "value이다");
-              const awsFileUrl = await uploadToS3(
-                value,
-                loggedInUser.id,
-                "userPost"
-              );
-              console.log(awsFileUrl, "aws이다");
-              await client.file.create({
-                data: {
-                  fileUrl: awsFileUrl.Location,
-                  fileKey: awsFileUrl.Key,
-                  userPost: {
-                    connect: {
-                      id: newPost.id,
-                    },
-                  },
-                },
-              });
-            });
+            for (let i of fileUrl1) {
+              console.log(fileUrl1, "포오브");
+            }
+            // await fileUrl1.forEach(async (value) => {
+            //   console.log(value, "value이다");
+            //   const awsFileUrl = await uploadToS3(
+            //     value,
+            //     loggedInUser.id,
+            //     "userPost"
+            //   );
+            //   console.log(awsFileUrl, "aws이다");
+            //   await client.file.create({
+            //     data: {
+            //       fileUrl: awsFileUrl.Location,
+            //       fileKey: awsFileUrl.Key,
+            //       userPost: {
+            //         connect: {
+            //           id: newPost.id,
+            //         },
+            //       },
+            //     },
+            //   });
+            // });
             return newPost;
           } else {
             const newPost = await client.userPost.create({
