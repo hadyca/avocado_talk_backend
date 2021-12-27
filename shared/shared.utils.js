@@ -8,11 +8,9 @@ AWS.config.update({
 });
 
 export const uploadToS3 = async (file, userId, folderName) => {
-  console.log(file, "s3file받았음");
   const { filename, createReadStream } = await file;
   const readStream = createReadStream();
   const objectName = `${folderName}/${userId}-${Date.now()}-${filename}`;
-  console.log(objectName, "오브젝네임이다");
   const data = await new AWS.S3()
     .upload({
       Bucket: "avocadotalkbucket",
@@ -21,7 +19,6 @@ export const uploadToS3 = async (file, userId, folderName) => {
       Body: readStream,
     })
     .promise();
-  console.log(data, "최종데이타");
   return data;
 };
 
@@ -32,6 +29,5 @@ export const deleteFile = async (key) => {
       Key: key,
     })
     .promise();
-
   return;
 };
