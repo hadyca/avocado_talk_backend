@@ -6,7 +6,7 @@ CREATE TABLE "User" (
     "avatar" TEXT,
     "bio" TEXT,
     "password" TEXT NOT NULL,
-    "secretConfirm" BOOLEAN NOT NULL DEFAULT false,
+    "authCode" INTEGER NOT NULL,
     "loginSecret" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -18,11 +18,12 @@ CREATE TABLE "User" (
 CREATE TABLE "UserPost" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
-    "fileUrl" TEXT,
-    "fileKey" TEXT,
+    "title" TEXT NOT NULL,
     "content" TEXT NOT NULL,
+    "category" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deleted" BOOLEAN NOT NULL DEFAULT false,
 
     PRIMARY KEY ("id")
 );
@@ -46,6 +47,7 @@ CREATE TABLE "UserPostComment" (
     "payload" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deleted" BOOLEAN NOT NULL DEFAULT false,
 
     PRIMARY KEY ("id")
 );
@@ -73,12 +75,12 @@ CREATE TABLE "Company" (
 CREATE TABLE "CompanyPost" (
     "id" SERIAL NOT NULL,
     "companyId" INTEGER NOT NULL,
-    "fileUrl" TEXT,
-    "fileKey" TEXT,
+    "postSector" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "content" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deleted" BOOLEAN NOT NULL DEFAULT false,
 
     PRIMARY KEY ("id")
 );
@@ -102,6 +104,18 @@ CREATE TABLE "CompanyPostComment" (
     "payload" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deleted" BOOLEAN NOT NULL DEFAULT false,
+
+    PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "File" (
+    "id" SERIAL NOT NULL,
+    "fileUrl" TEXT NOT NULL,
+    "fileKey" TEXT NOT NULL,
+    "userPostId" INTEGER,
+    "companyPostId" INTEGER,
 
     PRIMARY KEY ("id")
 );
@@ -123,9 +137,6 @@ CREATE UNIQUE INDEX "User.username_unique" ON "User"("username");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User.email_unique" ON "User"("email");
-
--- CreateIndex
-CREATE UNIQUE INDEX "UserPostLike.userPostId_unique" ON "UserPostLike"("userPostId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "UserPostLike.userId_userPostId_unique" ON "UserPostLike"("userId", "userPostId");
@@ -183,6 +194,12 @@ ALTER TABLE "CompanyPostComment" ADD FOREIGN KEY ("userId") REFERENCES "User"("i
 
 -- AddForeignKey
 ALTER TABLE "CompanyPostComment" ADD FOREIGN KEY ("companyPostId") REFERENCES "CompanyPost"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "File" ADD FOREIGN KEY ("userPostId") REFERENCES "UserPost"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "File" ADD FOREIGN KEY ("companyPostId") REFERENCES "CompanyPost"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_FollowRelation" ADD FOREIGN KEY ("A") REFERENCES "Company"("id") ON DELETE CASCADE ON UPDATE CASCADE;
