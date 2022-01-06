@@ -6,7 +6,6 @@ export default {
   Mutation: {
     uploadUserPost: protectedResolver(
       async (_, { fileUrl, title, content, category }, { loggedInUser }) => {
-        console.log(title, category);
         const fileUrl1 = await Promise.all(fileUrl).then();
         try {
           if (fileUrl) {
