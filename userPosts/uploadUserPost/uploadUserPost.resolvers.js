@@ -5,7 +5,8 @@ import { protectedResolver } from "../../users/users.utils";
 export default {
   Mutation: {
     uploadUserPost: protectedResolver(
-      async (_, { fileUrl, title, content }, { loggedInUser }) => {
+      async (_, { fileUrl, title, content, category }, { loggedInUser }) => {
+        console.log(title, category);
         const fileUrl1 = await Promise.all(fileUrl).then();
         try {
           if (fileUrl) {
@@ -13,6 +14,7 @@ export default {
               data: {
                 title,
                 content,
+                category,
                 user: {
                   connect: {
                     id: loggedInUser.id,
@@ -46,6 +48,7 @@ export default {
               data: {
                 title,
                 content,
+                category,
                 user: {
                   connect: {
                     id: loggedInUser.id,

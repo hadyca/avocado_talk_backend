@@ -7,6 +7,7 @@ export default gql`
     file: [File]
     title: String!
     content: String!
+    category: String!
     totalUserPostLikes: Int!
     totalUserPostComments: Int!
     userPostComments: [UserPostComment]
