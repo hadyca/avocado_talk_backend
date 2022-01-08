@@ -6,7 +6,11 @@ import { protectedResolver } from "../../users/users.utils";
 export default {
   Mutation: {
     editUserPost: protectedResolver(
-      async (_, { userPostId, fileUrl, title, content }, { loggedInUser }) => {
+      async (
+        _,
+        { userPostId, fileUrl, title, content, category },
+        { loggedInUser }
+      ) => {
         const oldPost = await client.userPost.findFirst({
           where: {
             id: userPostId,
@@ -44,6 +48,7 @@ export default {
               data: {
                 title,
                 content,
+                category,
               },
             });
             await client.file.create({
@@ -69,6 +74,7 @@ export default {
             data: {
               title,
               content,
+              category,
             },
           });
           return {

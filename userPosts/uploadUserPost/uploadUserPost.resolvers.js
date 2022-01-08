@@ -21,14 +21,12 @@ export default {
                 },
               },
             });
-            console.log(fileUrl1);
             for (let value of fileUrl1) {
               const awsFileUrl = await uploadToS3(
                 value,
                 loggedInUser.id,
                 "userPost"
               );
-              console.log(awsFileUrl, "업로드 후 결과오브젝");
               await client.file.create({
                 data: {
                   fileUrl: awsFileUrl.Location,
