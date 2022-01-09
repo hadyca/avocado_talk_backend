@@ -40,20 +40,6 @@ export default {
               });
             }
             return newPost;
-          } else {
-            const newPost = await client.userPost.create({
-              data: {
-                title,
-                content,
-                category,
-                user: {
-                  connect: {
-                    id: loggedInUser.id,
-                  },
-                },
-              },
-            });
-            return newPost;
           }
         } catch (error) {
           return error;

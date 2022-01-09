@@ -11,36 +11,49 @@ export default {
         { userPostId, fileUrl, title, content, category },
         { loggedInUser }
       ) => {
-        const oldPost = await client.userPost.findFirst({
-          where: {
-            id: userPostId,
-            userId: loggedInUser.id,
-          },
-          select: {
-            file: true,
-          },
-        });
-        if (!oldPost) {
-          return {
-            ok: false,
-            error: "게시글을 찾을 수 없습니다.",
-          };
-        }
-        if (fileUrl) {
-          await client.file.deleteMany({
+        try {
+          const oldPost = await client.userPost.findFirst({
             where: {
-              userPostId,
+              id: userPostId,
+              userId: loggedInUser.id,
+            },
+            select: {
+              file: true,
             },
           });
-          oldPost.file.forEach(
-            async (value) => await deleteFile(value.fileKey)
-          );
-          await fileUrl.forEach(async (value) => {
-            const awsFileUrl = await uploadToS3(
-              value,
-              loggedInUser.id,
-              "userPost"
+          if (!oldPost) {
+            return {
+              ok: false,
+              error: "게시글을 찾을 수 없습니다.",
+            };
+          }
+          if (fileUrl) {
+            await client.file.deleteMany({
+              where: {
+                userPostId,
+              },
+            });
+            oldPost.file.forEach(
+              async (value) => await deleteFile(value.fileKey)
             );
+            for (let value of fileUrl) {
+              const awsFileUrl = await uploadToS3(
+                value,
+                loggedInUser.id,
+                "userPost"
+              );
+              await client.file.create({
+                data: {
+                  fileUrl: awsFileUrl.Location,
+                  fileKey: awsFileUrl.Key,
+                  userPost: {
+                    connect: {
+                      id: userPostId,
+                    },
+                  },
+                },
+              });
+            }
             await client.userPost.update({
               where: {
                 id: userPostId,
@@ -51,35 +64,12 @@ export default {
                 category,
               },
             });
-            await client.file.create({
-              data: {
-                fileUrl: awsFileUrl.Location,
-                fileKey: awsFileUrl.Key,
-                userPost: {
-                  connect: {
-                    id: userPostId,
-                  },
-                },
-              },
-            });
-          });
-          return {
-            ok: true,
-          };
-        } else {
-          await client.userPost.update({
-            where: {
-              id: userPostId,
-            },
-            data: {
-              title,
-              content,
-              category,
-            },
-          });
-          return {
-            ok: true,
-          };
+            return {
+              ok: true,
+            };
+          }
+        } catch (error) {
+          return error;
         }
       }
     ),
