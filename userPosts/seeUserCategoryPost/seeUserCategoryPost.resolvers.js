@@ -2,8 +2,9 @@ import client from "../../client";
 
 export default {
   Query: {
-    seeAllUserPosts: (_, { offset }) =>
+    seeUserCategoryPost: (_, { category, offset }) =>
       client.userPost.findMany({
+        where: { category },
         take: 15,
         skip: offset,
         orderBy: {
