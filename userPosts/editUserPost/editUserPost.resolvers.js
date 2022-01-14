@@ -54,7 +54,7 @@ export default {
                 },
               });
             }
-            await client.userPost.update({
+            const newPost = await client.userPost.update({
               where: {
                 id: userPostId,
               },
@@ -64,9 +64,7 @@ export default {
                 category,
               },
             });
-            return {
-              ok: true,
-            };
+            return newPost;
           }
         } catch (error) {
           return error;
