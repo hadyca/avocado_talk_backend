@@ -8,7 +8,6 @@ export default {
         const comment = await client.userPostReComment.findFirst({
           where: {
             id: reCommentId,
-            deleted: false,
           },
           select: {
             userId: true,
@@ -17,7 +16,7 @@ export default {
         if (!comment) {
           return {
             ok: false,
-            error: "코멘트를 찾을 수 없거나, 삭제 되었습니다.",
+            error: "코멘트를 찾을 수 없습니다.",
           };
         } else if (comment.userId !== loggedInUser.id) {
           return {
