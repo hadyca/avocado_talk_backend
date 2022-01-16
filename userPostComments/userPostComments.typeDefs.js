@@ -7,6 +7,7 @@ export default gql`
     userPost: UserPost!
     payload: String!
     isMine: Boolean!
+    userPostReComments: [UserPostReComment]
     createdAt: String!
     updatedAt: String!
     deleted: Boolean!

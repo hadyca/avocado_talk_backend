@@ -4,9 +4,9 @@ export default gql`
   type UserPostReComment {
     id: String!
     user: User!
-    userPost: UserPost!
     payload: String!
     isMine: Boolean!
+    userPostComment: UserPostComment
     createdAt: String!
     updatedAt: String!
     deleted: Boolean!
