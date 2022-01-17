@@ -23,10 +23,6 @@ export default {
       return client.userPostLike.count({ where: { userPostId: id } });
     },
 
-    // totalUserPostComments: ({ id }) => {
-    //   return client.userPostComment.count({ where: { userPostId: id } });
-    // },
-
     totalUserPostComments: ({ id }) => {
       return client.userPostComment.count({
         where: {

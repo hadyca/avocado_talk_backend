@@ -24,6 +24,7 @@ export default {
             },
           },
         });
+
         if (user) {
           await client.user.update({
             where: {
