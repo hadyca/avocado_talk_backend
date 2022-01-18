@@ -23,8 +23,8 @@ export default {
       return client.userPostLike.count({ where: { userPostId: id } });
     },
 
-    totalUserPostComments: ({ id }) => {
-      return client.userPostComment.count({
+    totalUserPostComments: async ({ id }) => {
+      const PostComment = await client.userPostComment.count({
         where: {
           AND: [
             {
@@ -36,7 +36,23 @@ export default {
           ],
         },
       });
+
+      const reCommentArry = await client.userPostComment.findMany({
+        where: { userPostId: id },
+        select: {
+          _count: {
+            select: { userPostReComments: true },
+          },
+        },
+      });
+
+      const reComment = reCommentArry.reduce((prev, cur) => {
+        return (prev += cur._count.userPostReComments);
+      }, 0);
+
+      return PostComment + reComment;
     },
+
     isMine: ({ userId }, _, { loggedInUser }) => {
       if (!loggedInUser) {
         return false;

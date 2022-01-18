@@ -28,6 +28,7 @@ model User {
   userPostComments                UserPostComment[]
   userPostReComments  UserPostReComment[]
   userPosts       UserPost[]
+  reports         Report[]
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
@@ -45,6 +46,7 @@ model UserPost {
   userLikes       UserPostLike[]
   userPostComments        UserPostComment[]
   deleted         Boolean @default(false)
+  reports         Report[]
 }
 
 model UserPostLike {
@@ -69,6 +71,7 @@ model UserPostComment {
   updatedAt       DateTime @updatedAt
   deleted         Boolean @default(false)
   userPostReComments UserPostReComment[]
+  reports        Report[]
 }
 
 model UserPostReComment {
@@ -81,6 +84,7 @@ model UserPostReComment {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   deleted         Boolean @default(false)
+  reports        Report[]
 }
 
 //User와 1:1관계 (회사 오너만 / 운영자 승인 후 연결)
@@ -117,7 +121,7 @@ model CompanyPost {
   companyLikes    CompanyPostLike[]
   companyPostComments        CompanyPostComment[]
   deleted         Boolean @default(false)
-
+  reports        Report[]
 }
 
 model CompanyPostLike {
@@ -142,6 +146,7 @@ model CompanyPostComment {
   updatedAt       DateTime @updatedAt
   deleted         Boolean @default(false)
   companyPostReComments CompanyPostReComment[]
+  reports        Report[]
 }
 
 model CompanyPostReComment {
@@ -154,6 +159,7 @@ model CompanyPostReComment {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   deleted         Boolean @default(false)
+  reports        Report[]
 }
 
 model File {
@@ -164,4 +170,24 @@ model File {
   userPostId      Int?
   companyPost     CompanyPost?    @relation(fields: [companyPostId], references: [id])
   companyPostId   Int?
+}
+
+model Report {
+  id              Int      @id @default(autoincrement())
+  user            User     @relation(fields: [userId], references: [id])
+  userId          Int
+  reason          String
+  userPost        UserPost    @relation(fields: [userPostId], references: [id]) 
+  userPostId      Int
+  userPostComment        UserPostComment    @relation(fields: [userPostCommentId], references: [id]) 
+  userPostCommentId      Int
+  userPostReComment        UserPostReComment    @relation(fields: [userPostReCommentId], references: [id]) 
+  userPostReCommentId      Int
+  companyPost        CompanyPost    @relation(fields: [companyPostId], references: [id]) 
+  companyPostId      Int
+  companyPostComment        CompanyPostComment    @relation(fields: [companyPostCommentId], references: [id]) 
+  companyPostCommentId      Int
+  companyPostReComment        CompanyPostReComment    @relation(fields: [companyPostReCommentId], references: [id]) 
+  companyPostReCommentId      Int
+  createdAt       DateTime @default(now())
 }
