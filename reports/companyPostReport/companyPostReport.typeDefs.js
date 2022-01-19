@@ -2,6 +2,6 @@ import { gql } from "apollo-server";
 
 export default gql`
   type Mutation {
-    reportProblem(id: Int!, reason: String!): MutationResponse!
+    companyPostReport(companyPostId: Int!, reason: String!): MutationResponse!
   }
 `;

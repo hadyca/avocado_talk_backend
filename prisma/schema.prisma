@@ -10,27 +10,32 @@ generator client {
   provider = "prisma-client-js"
 }
 model User {
-  id              Int      @id @default(autoincrement())
-  username        String   @unique
-  email           String   @unique
-  avatar          String?
-  bio             String?
-  password        String
-  authCode        Int
-  loginSecret     String?
-  followings      Company[]    @relation("FollowRelation", references: [id]) //회사 팔로잉 (팔로잉 하는 회사가 올리는 채용 글 읽기)
-  favoritePosts   CompanyPost[] @relation("FavoriteRelation", references: [id])
-  companyPostLikes    CompanyPostLike[]
-  userPostLikes       UserPostLike[]
-  companyOwner    Company?
-  companyPostComments        CompanyPostComment[]
-  companyPostReComments CompanyPostReComment[]
-  userPostComments                UserPostComment[]
-  userPostReComments  UserPostReComment[]
-  userPosts       UserPost[]
-  reports         Report[]
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id                            Int      @id @default(autoincrement())
+  username                      String   @unique
+  email                         String   @unique
+  avatar                        String?
+  bio                           String?
+  password                      String
+  authCode                      Int
+  loginSecret                   String?
+  followings                    Company[]    @relation("FollowRelation", references: [id]) //회사 팔로잉 (팔로잉 하는 회사가 올리는 채용 글 읽기)
+  favoritePosts                 CompanyPost[] @relation("FavoriteRelation", references: [id])
+  companyPostLikes              CompanyPostLike[]
+  userPostLikes                 UserPostLike[]
+  companyOwner                  Company?
+  companyPostComments           CompanyPostComment[]
+  companyPostReComments         CompanyPostReComment[]
+  userPostComments              UserPostComment[]
+  userPostReComments            UserPostReComment[]
+  userPosts                     UserPost[]
+  userPostReports               UserPostReport[]
+  userPostCommentReports        UserPostCommentReport[]
+  userPostReCommentReports      UserPostReCommentReport[]
+  companyPostReports            CompanyPostReport[]
+  companyPostCommentReports     CompanyPostCommentReport[]
+  companyPostReCommentReports   CompanyPostReCommentReport[]
+  createdAt                     DateTime @default(now())
+  updatedAt                     DateTime @updatedAt
 }
 
 model UserPost {
@@ -46,7 +51,7 @@ model UserPost {
   userLikes       UserPostLike[]
   userPostComments        UserPostComment[]
   deleted         Boolean @default(false)
-  reports         Report[]
+  reports            UserPostReport[]
 }
 
 model UserPostLike {
@@ -71,7 +76,7 @@ model UserPostComment {
   updatedAt       DateTime @updatedAt
   deleted         Boolean @default(false)
   userPostReComments UserPostReComment[]
-  reports        Report[]
+  reports            UserPostCommentReport[]
 }
 
 model UserPostReComment {
@@ -84,7 +89,7 @@ model UserPostReComment {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   deleted         Boolean @default(false)
-  reports        Report[]
+  reports         UserPostReCommentReport[]
 }
 
 //User와 1:1관계 (회사 오너만 / 운영자 승인 후 연결)
@@ -121,7 +126,7 @@ model CompanyPost {
   companyLikes    CompanyPostLike[]
   companyPostComments        CompanyPostComment[]
   deleted         Boolean @default(false)
-  reports        Report[]
+  reports            CompanyPostReport[]
 }
 
 model CompanyPostLike {
@@ -146,7 +151,7 @@ model CompanyPostComment {
   updatedAt       DateTime @updatedAt
   deleted         Boolean @default(false)
   companyPostReComments CompanyPostReComment[]
-  reports        Report[]
+  reports            CompanyPostCommentReport[]
 }
 
 model CompanyPostReComment {
@@ -159,7 +164,7 @@ model CompanyPostReComment {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   deleted         Boolean @default(false)
-  reports        Report[]
+  reports            CompanyPostReCommentReport[]
 }
 
 model File {
@@ -172,22 +177,78 @@ model File {
   companyPostId   Int?
 }
 
-model Report {
+// -------Report Part-------
+
+model UserPostReport {
   id              Int      @id @default(autoincrement())
   user            User     @relation(fields: [userId], references: [id])
   userId          Int
   reason          String
   userPost        UserPost    @relation(fields: [userPostId], references: [id]) 
   userPostId      Int
+  createdAt       DateTime @default(now())
+  check           Boolean @default(false)
+  delete          Boolean @default(false)
+}
+
+model UserPostCommentReport {
+  id              Int      @id @default(autoincrement())
+  user            User     @relation(fields: [userId], references: [id])
+  userId          Int
+  reason          String
   userPostComment        UserPostComment    @relation(fields: [userPostCommentId], references: [id]) 
   userPostCommentId      Int
-  userPostReComment        UserPostReComment    @relation(fields: [userPostReCommentId], references: [id]) 
+  createdAt       DateTime @default(now())
+    check           Boolean @default(false)
+  delete          Boolean @default(false)
+}
+
+model UserPostReCommentReport {
+  id              Int      @id @default(autoincrement())
+  user            User     @relation(fields: [userId], references: [id])
+  userId          Int
+  reason          String
+  userPostReComment      UserPostReComment    @relation(fields: [userPostReCommentId], references: [id]) 
   userPostReCommentId      Int
+  createdAt       DateTime @default(now())
+    check           Boolean @default(false)
+  delete          Boolean @default(false)
+}
+
+model CompanyPostReport {
+  id              Int      @id @default(autoincrement())
+  user            User     @relation(fields: [userId], references: [id])
+  userId          Int
+  reason          String
   companyPost        CompanyPost    @relation(fields: [companyPostId], references: [id]) 
   companyPostId      Int
+  createdAt       DateTime @default(now())
+    check           Boolean @default(false)
+  delete          Boolean @default(false)
+}
+
+model CompanyPostCommentReport {
+  id              Int      @id @default(autoincrement())
+  user            User     @relation(fields: [userId], references: [id])
+  userId          Int
+  reason          String
   companyPostComment        CompanyPostComment    @relation(fields: [companyPostCommentId], references: [id]) 
   companyPostCommentId      Int
-  companyPostReComment        CompanyPostReComment    @relation(fields: [companyPostReCommentId], references: [id]) 
+  createdAt       DateTime @default(now())
+    check           Boolean @default(false)
+  delete          Boolean @default(false)
+}
+
+model CompanyPostReCommentReport {
+  id              Int      @id @default(autoincrement())
+  user            User     @relation(fields: [userId], references: [id])
+  userId          Int
+  reason          String
+  companyPostReComment      CompanyPostReComment    @relation(fields: [companyPostReCommentId], references: [id]) 
   companyPostReCommentId      Int
   createdAt       DateTime @default(now())
+    check           Boolean @default(false)
+  delete          Boolean @default(false)
 }
+
+// -------End of Report Part-------

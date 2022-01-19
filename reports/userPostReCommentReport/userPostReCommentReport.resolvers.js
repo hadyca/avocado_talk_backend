@@ -3,31 +3,29 @@ import { protectedResolver } from "../../users/users.utils";
 
 export default {
   Mutation: {
-    reportProblem: protectedResolver(
-      async (_, { id, reason }, { loggedInUser }) => {
-        if(id === "userPostId")
-        const ok1 = await client.userPost.findUnique({
+    userPostReCommentReport: protectedResolver(
+      async (_, { userPostReCommentId, reason }, { loggedInUser }) => {
+        const ok = await client.userPostReComment.findUnique({
           where: {
-            id: userPostId,
+            id: userPostReCommentId,
           },
           select: {
             id: true,
           },
         });
-
         if (!ok) {
           return {
             ok: false,
-            error: "게시글을 찾을 수 없습니다.",
+            error: "코멘트를 찾을 수 없습니다.",
           };
         }
 
-        const newComment = await client.userPostComment.create({
+        const newReport = await client.userPostReCommentReport.create({
           data: {
-            payload,
-            userPost: {
+            reason,
+            userPostReComment: {
               connect: {
-                id: userPostId,
+                id: userPostReCommentId,
               },
             },
             user: {
@@ -39,7 +37,7 @@ export default {
         });
         return {
           ok: true,
-          id: newComment.id,
+          id: newReport.id,
         };
       }
     ),
