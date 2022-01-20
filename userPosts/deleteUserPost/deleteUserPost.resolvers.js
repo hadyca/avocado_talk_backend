@@ -16,7 +16,7 @@ export default {
         if (!post) {
           return {
             ok: false,
-            error: "해당 POST 를 찾을 수 없습니다.",
+            error: "해당 게시글을 찾을 수 없습니다.",
           };
         } else if (post.userId !== loggedInUser.id) {
           return {
