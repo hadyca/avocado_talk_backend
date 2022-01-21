@@ -5,9 +5,6 @@ export default {
     seeUserPostComments: (_, { userPostId }) =>
       client.userPostComment.findMany({
         where: { userPostId },
-        orderBy: {
-          createdAt: "desc",
-        },
         include: { user: true },
       }),
   },
