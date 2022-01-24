@@ -6,6 +6,9 @@ export default {
       client.userPostComment.findMany({
         where: { userPostId },
         include: { user: true },
+        orderBy: {
+          createdAt: "asc",
+        },
       }),
   },
 };
