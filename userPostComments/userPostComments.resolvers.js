@@ -18,6 +18,9 @@ export default {
     userPostReComments: ({ id }) => {
       return client.userPostReComment.findMany({
         where: { userPostCommentId: id },
+        orderBy: {
+          createdAt: "asc",
+        },
       });
     },
   },
