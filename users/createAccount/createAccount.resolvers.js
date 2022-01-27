@@ -50,6 +50,8 @@ export default {
                 id: newUser.id,
               },
             });
+          } else {
+            return;
           }
         }, 300000);
         return {
