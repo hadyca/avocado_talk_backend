@@ -11,8 +11,12 @@ export default {
           },
           select: {
             userId: true,
+            _count: {
+              select: { userPostReComments: true },
+            },
           },
         });
+
         if (!comment) {
           return {
             ok: false,
@@ -24,16 +28,14 @@ export default {
             error: "권한이 없습니다.",
           };
         } else {
-          await client.userPostComment.update({
+          await client.userPostComment.delete({
             where: {
               id: commentId,
-            },
-            data: {
-              deleted: true,
             },
           });
           return {
             ok: true,
+            totalRecomments: comment._count.userPostReComments,
           };
         }
       }

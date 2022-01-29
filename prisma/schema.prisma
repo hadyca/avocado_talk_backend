@@ -74,8 +74,7 @@ model UserPostComment {
   payload         String
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-  deleted         Boolean @default(false)
-  userPostReComments UserPostReComment[]
+  userPostReComments UserPostReComment[] 
   reports            UserPostCommentReport[]
 }
 
@@ -83,12 +82,11 @@ model UserPostReComment {
   id              Int      @id @default(autoincrement())
   user            User     @relation(fields: [userId], references: [id])
   userId          Int
-  userPostComment        UserPostComment    @relation(fields: [userPostCommentId], references: [id]) 
+  userPostComment        UserPostComment    @relation(fields: [userPostCommentId], references: [id], onDelete: Cascade) 
   userPostCommentId      Int 
   payload         String
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-  deleted         Boolean @default(false)
   reports         UserPostReCommentReport[]
 }
 
@@ -149,7 +147,6 @@ model CompanyPostComment {
   payload         String
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-  deleted         Boolean @default(false)
   companyPostReComments CompanyPostReComment[]
   reports            CompanyPostCommentReport[]
 }
@@ -163,7 +160,6 @@ model CompanyPostReComment {
   payload         String
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-  deleted         Boolean @default(false)
   reports            CompanyPostReCommentReport[]
 }
 
@@ -232,7 +228,7 @@ model CompanyPostCommentReport {
   user            User     @relation(fields: [userId], references: [id])
   userId          Int
   reason          String
-  companyPostComment        CompanyPostComment    @relation(fields: [companyPostCommentId], references: [id]) 
+  companyPostComment        CompanyPostComment    @relation(fields: [companyPostCommentId], references: [id], onDelete: Cascade) 
   companyPostCommentId      Int
   createdAt       DateTime @default(now())
     check           Boolean @default(false)

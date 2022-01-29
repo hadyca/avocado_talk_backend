@@ -47,7 +47,6 @@ CREATE TABLE "UserPostComment" (
     "payload" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "deleted" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "UserPostComment_pkey" PRIMARY KEY ("id")
 );
@@ -60,7 +59,6 @@ CREATE TABLE "UserPostReComment" (
     "payload" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "deleted" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "UserPostReComment_pkey" PRIMARY KEY ("id")
 );
@@ -117,7 +115,6 @@ CREATE TABLE "CompanyPostComment" (
     "payload" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "deleted" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "CompanyPostComment_pkey" PRIMARY KEY ("id")
 );
@@ -130,7 +127,6 @@ CREATE TABLE "CompanyPostReComment" (
     "payload" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "deleted" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "CompanyPostReComment_pkey" PRIMARY KEY ("id")
 );
@@ -144,6 +140,84 @@ CREATE TABLE "File" (
     "companyPostId" INTEGER,
 
     CONSTRAINT "File_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "UserPostReport" (
+    "id" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "reason" TEXT NOT NULL,
+    "userPostId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "check" BOOLEAN NOT NULL DEFAULT false,
+    "delete" BOOLEAN NOT NULL DEFAULT false,
+
+    CONSTRAINT "UserPostReport_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "UserPostCommentReport" (
+    "id" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "reason" TEXT NOT NULL,
+    "userPostCommentId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "check" BOOLEAN NOT NULL DEFAULT false,
+    "delete" BOOLEAN NOT NULL DEFAULT false,
+
+    CONSTRAINT "UserPostCommentReport_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "UserPostReCommentReport" (
+    "id" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "reason" TEXT NOT NULL,
+    "userPostReCommentId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "check" BOOLEAN NOT NULL DEFAULT false,
+    "delete" BOOLEAN NOT NULL DEFAULT false,
+
+    CONSTRAINT "UserPostReCommentReport_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "CompanyPostReport" (
+    "id" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "reason" TEXT NOT NULL,
+    "companyPostId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "check" BOOLEAN NOT NULL DEFAULT false,
+    "delete" BOOLEAN NOT NULL DEFAULT false,
+
+    CONSTRAINT "CompanyPostReport_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "CompanyPostCommentReport" (
+    "id" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "reason" TEXT NOT NULL,
+    "companyPostCommentId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "check" BOOLEAN NOT NULL DEFAULT false,
+    "delete" BOOLEAN NOT NULL DEFAULT false,
+
+    CONSTRAINT "CompanyPostCommentReport_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "CompanyPostReCommentReport" (
+    "id" SERIAL NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "reason" TEXT NOT NULL,
+    "companyPostReCommentId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "check" BOOLEAN NOT NULL DEFAULT false,
+    "delete" BOOLEAN NOT NULL DEFAULT false,
+
+    CONSTRAINT "CompanyPostReCommentReport_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -238,6 +312,42 @@ ALTER TABLE "File" ADD CONSTRAINT "File_userPostId_fkey" FOREIGN KEY ("userPostI
 
 -- AddForeignKey
 ALTER TABLE "File" ADD CONSTRAINT "File_companyPostId_fkey" FOREIGN KEY ("companyPostId") REFERENCES "CompanyPost"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserPostReport" ADD CONSTRAINT "UserPostReport_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserPostReport" ADD CONSTRAINT "UserPostReport_userPostId_fkey" FOREIGN KEY ("userPostId") REFERENCES "UserPost"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserPostCommentReport" ADD CONSTRAINT "UserPostCommentReport_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserPostCommentReport" ADD CONSTRAINT "UserPostCommentReport_userPostCommentId_fkey" FOREIGN KEY ("userPostCommentId") REFERENCES "UserPostComment"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserPostReCommentReport" ADD CONSTRAINT "UserPostReCommentReport_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserPostReCommentReport" ADD CONSTRAINT "UserPostReCommentReport_userPostReCommentId_fkey" FOREIGN KEY ("userPostReCommentId") REFERENCES "UserPostReComment"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CompanyPostReport" ADD CONSTRAINT "CompanyPostReport_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CompanyPostReport" ADD CONSTRAINT "CompanyPostReport_companyPostId_fkey" FOREIGN KEY ("companyPostId") REFERENCES "CompanyPost"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CompanyPostCommentReport" ADD CONSTRAINT "CompanyPostCommentReport_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CompanyPostCommentReport" ADD CONSTRAINT "CompanyPostCommentReport_companyPostCommentId_fkey" FOREIGN KEY ("companyPostCommentId") REFERENCES "CompanyPostComment"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CompanyPostReCommentReport" ADD CONSTRAINT "CompanyPostReCommentReport_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CompanyPostReCommentReport" ADD CONSTRAINT "CompanyPostReCommentReport_companyPostReCommentId_fkey" FOREIGN KEY ("companyPostReCommentId") REFERENCES "CompanyPostReComment"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_FollowRelation" ADD FOREIGN KEY ("A") REFERENCES "Company"("id") ON DELETE CASCADE ON UPDATE CASCADE;

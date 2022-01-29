@@ -10,6 +10,5 @@ export default gql`
     userPostReComments: [UserPostReComment]
     createdAt: String!
     updatedAt: String!
-    deleted: Boolean!
   }
 `;

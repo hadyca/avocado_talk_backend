@@ -9,6 +9,5 @@ export default gql`
     userPostComment: UserPostComment
     createdAt: String!
     updatedAt: String!
-    deleted: Boolean!
   }
 `;

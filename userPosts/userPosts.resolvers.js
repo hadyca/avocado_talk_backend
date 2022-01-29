@@ -26,14 +26,7 @@ export default {
     totalUserPostComments: async ({ id }) => {
       const PostComment = await client.userPostComment.count({
         where: {
-          AND: [
-            {
-              userPostId: id,
-            },
-            {
-              deleted: false,
-            },
-          ],
+          userPostId: id,
         },
       });
 

@@ -24,12 +24,9 @@ export default {
             error: "권한이 없습니다.",
           };
         } else {
-          await client.userPostReComment.update({
+          await client.userPostReComment.delete({
             where: {
               id: reCommentId,
-            },
-            data: {
-              deleted: true,
             },
           });
           return {

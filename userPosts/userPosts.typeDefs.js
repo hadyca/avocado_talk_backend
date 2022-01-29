@@ -11,11 +11,11 @@ export default gql`
     totalUserPostLikes: Int!
     totalUserPostComments: Int!
     userPostComments: [UserPostComment]
+    deleted: Boolean!
     createdAt: String!
     updatedAt: String!
     isMine: Boolean!
     isLiked: Boolean!
-    deleted: Boolean!
   }
 
   type UserPostLike {
