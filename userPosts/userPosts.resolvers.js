@@ -10,6 +10,9 @@ export default {
     userPostComments: ({ id }) => {
       return client.userPostComment.findMany({
         where: { userPostId: id },
+        orderBy: {
+          createdAt: "asc",
+        },
       });
     },
     file: ({ id }) => {
