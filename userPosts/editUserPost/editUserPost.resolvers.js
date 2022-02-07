@@ -64,7 +64,10 @@ export default {
                 category,
               },
             });
-            return newPost;
+            return {
+              ok: true,
+              id: newPost.id,
+            };
           }
         } catch (error) {
           return error;

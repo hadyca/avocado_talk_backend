@@ -8,6 +8,6 @@ export default gql`
       title: String!
       content: String!
       category: String!
-    ): UserPost
+    ): MutationResponse!
   }
 `;
