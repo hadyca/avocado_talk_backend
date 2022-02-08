@@ -5,6 +5,6 @@ export default gql`
     createUserPostReComment(
       userPostCommentId: Int!
       payload: String!
-    ): MutationResponse!
+    ): UserPostReComment
   }
 `;

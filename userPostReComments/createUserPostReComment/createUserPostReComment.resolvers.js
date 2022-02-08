@@ -35,10 +35,7 @@ export default {
             },
           },
         });
-        return {
-          ok: true,
-          id: newComment.id,
-        };
+        return newComment;
       }
     ),
   },
