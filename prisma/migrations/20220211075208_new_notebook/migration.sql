@@ -281,7 +281,7 @@ ALTER TABLE "UserPostComment" ADD CONSTRAINT "UserPostComment_userPostId_fkey" F
 ALTER TABLE "UserPostReComment" ADD CONSTRAINT "UserPostReComment_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "UserPostReComment" ADD CONSTRAINT "UserPostReComment_userPostCommentId_fkey" FOREIGN KEY ("userPostCommentId") REFERENCES "UserPostComment"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "UserPostReComment" ADD CONSTRAINT "UserPostReComment_userPostCommentId_fkey" FOREIGN KEY ("userPostCommentId") REFERENCES "UserPostComment"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Company" ADD CONSTRAINT "Company_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -341,7 +341,7 @@ ALTER TABLE "CompanyPostReport" ADD CONSTRAINT "CompanyPostReport_companyPostId_
 ALTER TABLE "CompanyPostCommentReport" ADD CONSTRAINT "CompanyPostCommentReport_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "CompanyPostCommentReport" ADD CONSTRAINT "CompanyPostCommentReport_companyPostCommentId_fkey" FOREIGN KEY ("companyPostCommentId") REFERENCES "CompanyPostComment"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "CompanyPostCommentReport" ADD CONSTRAINT "CompanyPostCommentReport_companyPostCommentId_fkey" FOREIGN KEY ("companyPostCommentId") REFERENCES "CompanyPostComment"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "CompanyPostReCommentReport" ADD CONSTRAINT "CompanyPostReCommentReport_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

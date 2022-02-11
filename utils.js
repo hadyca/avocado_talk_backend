@@ -29,7 +29,7 @@ const sendMail = (email) => {
 
 export const sendSecretMail = (address, secret) => {
   const email = {
-    from: "rungaje@gmail.com",
+    from: "rlapwgud86@gmail.com",
     to: address,
     subject: "🔒Login Secret for 아보카도talk!🔒",
     html: `<h1>hello! your login secret is ${secret}.</h1>

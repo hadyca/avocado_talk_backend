@@ -9,242 +9,245 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
 model User {
-  id                            Int      @id @default(autoincrement())
-  username                      String   @unique
-  email                         String   @unique
-  avatar                        String?
-  bio                           String?
-  password                      String
-  authCode                      Int
-  loginSecret                   String?
-  followings                    Company[]    @relation("FollowRelation", references: [id]) //회사 팔로잉 (팔로잉 하는 회사가 올리는 채용 글 읽기)
-  favoritePosts                 CompanyPost[] @relation("FavoriteRelation", references: [id])
-  companyPostLikes              CompanyPostLike[]
-  userPostLikes                 UserPostLike[]
-  companyOwner                  Company?
-  companyPostComments           CompanyPostComment[]
-  companyPostReComments         CompanyPostReComment[]
-  userPostComments              UserPostComment[]
-  userPostReComments            UserPostReComment[]
-  userPosts                     UserPost[]
-  userPostReports               UserPostReport[]
-  userPostCommentReports        UserPostCommentReport[]
-  userPostReCommentReports      UserPostReCommentReport[]
-  companyPostReports            CompanyPostReport[]
-  companyPostCommentReports     CompanyPostCommentReport[]
-  companyPostReCommentReports   CompanyPostReCommentReport[]
-  createdAt                     DateTime @default(now())
-  updatedAt                     DateTime @updatedAt
+  id                          Int                          @id @default(autoincrement())
+  username                    String                       @unique
+  email                       String                       @unique
+  avatar                      String?
+  bio                         String?
+  password                    String
+  authCode                    Int
+  loginSecret                 String?
+  followings                  Company[]                    @relation("FollowRelation", references: [id]) //회사 팔로잉 (팔로잉 하는 회사가 올리는 채용 글 읽기)
+  favoritePosts               CompanyPost[]                @relation("FavoriteRelation", references: [id])
+  companyPostLikes            CompanyPostLike[]
+  userPostLikes               UserPostLike[]
+  companyOwner                Company?
+  companyPostComments         CompanyPostComment[]
+  companyPostReComments       CompanyPostReComment[]
+  userPostComments            UserPostComment[]
+  userPostReComments          UserPostReComment[]
+  userPosts                   UserPost[]
+  userPostReports             UserPostReport[]
+  userPostCommentReports      UserPostCommentReport[]
+  userPostReCommentReports    UserPostReCommentReport[]
+  companyPostReports          CompanyPostReport[]
+  companyPostCommentReports   CompanyPostCommentReport[]
+  companyPostReCommentReports CompanyPostReCommentReport[]
+  createdAt                   DateTime                     @default(now())
+  updatedAt                   DateTime                     @updatedAt
 }
 
 model UserPost {
-  id              Int       @id @default(autoincrement())
-  user            User      @relation(fields: [userId], references: [id])
-  userId          Int
-  file            File[]
-  title           String
-  content         String
-  category        String
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  userLikes       UserPostLike[]
-  userPostComments        UserPostComment[]
-  deleted         Boolean @default(false)
-  reports            UserPostReport[]
+  id               Int               @id @default(autoincrement())
+  user             User              @relation(fields: [userId], references: [id])
+  userId           Int
+  file             File[]
+  title            String
+  content          String
+  category         String
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  userLikes        UserPostLike[]
+  userPostComments UserPostComment[]
+  deleted          Boolean           @default(false)
+  reports          UserPostReport[]
 }
 
 model UserPostLike {
-  id              Int      @id @default(autoincrement())
-  user            User     @relation(fields: [userId], references: [id])
-  userId          Int      
-  userPost        UserPost    @relation(fields: [userPostId], references: [id]) 
-  userPostId      Int      
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  userPost   UserPost @relation(fields: [userPostId], references: [id])
+  userPostId Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
   @@unique([userId, userPostId])
 }
 
 model UserPostComment {
-  id              Int      @id @default(autoincrement())
-  user            User     @relation(fields: [userId], references: [id])
-  userId          Int
-  userPost        UserPost    @relation(fields: [userPostId], references: [id]) 
-  userPostId      Int 
-  payload         String
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  userPostReComments UserPostReComment[] 
+  id                 Int                     @id @default(autoincrement())
+  user               User                    @relation(fields: [userId], references: [id])
+  userId             Int
+  userPost           UserPost                @relation(fields: [userPostId], references: [id])
+  userPostId         Int
+  payload            String
+  createdAt          DateTime                @default(now())
+  updatedAt          DateTime                @updatedAt
+  userPostReComments UserPostReComment[]
   reports            UserPostCommentReport[]
 }
 
 model UserPostReComment {
-  id              Int      @id @default(autoincrement())
-  user            User     @relation(fields: [userId], references: [id])
-  userId          Int
-  userPostComment        UserPostComment    @relation(fields: [userPostCommentId], references: [id], onDelete: Cascade) 
-  userPostCommentId      Int 
-  payload         String
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  reports         UserPostReCommentReport[]
+  id                Int                       @id @default(autoincrement())
+  user              User                      @relation(fields: [userId], references: [id])
+  userId            Int
+  userPostComment   UserPostComment           @relation(fields: [userPostCommentId], references: [id], onDelete: Cascade)
+  userPostCommentId Int
+  payload           String
+  createdAt         DateTime                  @default(now())
+  updatedAt         DateTime                  @updatedAt
+  reports           UserPostReCommentReport[]
 }
 
 //User와 1:1관계 (회사 오너만 / 운영자 승인 후 연결)
 model Company {
-    id            Int      @id @default(autoincrement())
-    user          User     @relation(fields: [userId], references: [id])
-    userId        Int      @unique
-    followers     User[]    @relation("FollowRelation", references: [id])
-    companyName   String
-    addressStep1  String    //가장 큰 행정 구역 (시스템 제공)
-    addressStep2  String    //두번 째로 큰 행정 구역 (시스템 제공)
-    addressStep3  String    //나머지 주소 (사용자가 직접 타이핑)
-    sector        String
-    email         String   @unique
-    aboutUs       String   // 회사 소개
-    contactNumber String
-    totalEmployees  Int?
-    companyPosts  CompanyPost[]
-    createdAt     DateTime @default(now())
-    updatedAt     DateTime @updatedAt
-    }
+  id             Int           @id @default(autoincrement())
+  user           User          @relation(fields: [userId], references: [id])
+  userId         Int           @unique
+  followers      User[]        @relation("FollowRelation", references: [id])
+  companyName    String
+  addressStep1   String //가장 큰 행정 구역 (시스템 제공)
+  addressStep2   String //두번 째로 큰 행정 구역 (시스템 제공)
+  addressStep3   String //나머지 주소 (사용자가 직접 타이핑)
+  sector         String
+  email          String        @unique
+  aboutUs        String // 회사 소개
+  contactNumber  String
+  totalEmployees Int?
+  companyPosts   CompanyPost[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
 
 model CompanyPost {
-  id              Int       @id @default(autoincrement())
-  favoritedUser   User[]      @relation("FavoriteRelation", references: [id])
-  company         Company      @relation(fields: [companyId], references: [id])
-  companyId       Int    
-  file            File[]
-  postSector      String
-  title           String
-  content         String
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  companyLikes    CompanyPostLike[]
-  companyPostComments        CompanyPostComment[]
-  deleted         Boolean @default(false)
-  reports            CompanyPostReport[]
+  id                  Int                  @id @default(autoincrement())
+  favoritedUser       User[]               @relation("FavoriteRelation", references: [id])
+  company             Company              @relation(fields: [companyId], references: [id])
+  companyId           Int
+  file                File[]
+  postSector          String
+  title               String
+  content             String
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  companyLikes        CompanyPostLike[]
+  companyPostComments CompanyPostComment[]
+  deleted             Boolean              @default(false)
+  reports             CompanyPostReport[]
 }
 
 model CompanyPostLike {
-  id              Int      @id @default(autoincrement())
-  user            User     @relation(fields: [userId], references: [id])
-  userId          Int   
-  companyPost     CompanyPost    @relation(fields: [companyPostId], references: [id]) 
-  companyPostId   Int      
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id            Int         @id @default(autoincrement())
+  user          User        @relation(fields: [userId], references: [id])
+  userId        Int
+  companyPost   CompanyPost @relation(fields: [companyPostId], references: [id])
+  companyPostId Int
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
   @@unique([userId, companyPostId])
 }
 
 model CompanyPostComment {
-  id              Int      @id @default(autoincrement())
-  user            User     @relation(fields: [userId], references: [id])
-  userId          Int
-  companyPost     CompanyPost    @relation(fields: [companyPostId], references: [id]) 
-  companyPostId   Int 
-  payload         String
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id                    Int                        @id @default(autoincrement())
+  user                  User                       @relation(fields: [userId], references: [id])
+  userId                Int
+  companyPost           CompanyPost                @relation(fields: [companyPostId], references: [id])
+  companyPostId         Int
+  payload               String
+  createdAt             DateTime                   @default(now())
+  updatedAt             DateTime                   @updatedAt
   companyPostReComments CompanyPostReComment[]
-  reports            CompanyPostCommentReport[]
+  reports               CompanyPostCommentReport[]
 }
 
 model CompanyPostReComment {
-  id              Int      @id @default(autoincrement())
-  user            User     @relation(fields: [userId], references: [id])
-  userId          Int
-  companyPostComment     CompanyPostComment    @relation(fields: [companyPostCommentId], references: [id]) 
-  companyPostCommentId   Int 
-  payload         String
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  reports            CompanyPostReCommentReport[]
+  id                   Int                          @id @default(autoincrement())
+  user                 User                         @relation(fields: [userId], references: [id])
+  userId               Int
+  companyPostComment   CompanyPostComment           @relation(fields: [companyPostCommentId], references: [id])
+  companyPostCommentId Int
+  payload              String
+  createdAt            DateTime                     @default(now())
+  updatedAt            DateTime                     @updatedAt
+  reports              CompanyPostReCommentReport[]
 }
 
 model File {
-  id              Int      @id @default(autoincrement())
-  fileUrl         String
-  fileKey         String
-  userPost        UserPost?    @relation(fields: [userPostId], references: [id]) 
-  userPostId      Int?
-  companyPost     CompanyPost?    @relation(fields: [companyPostId], references: [id])
-  companyPostId   Int?
+  id            Int          @id @default(autoincrement())
+  fileUrl       String
+  fileKey       String
+  userPost      UserPost?    @relation(fields: [userPostId], references: [id])
+  userPostId    Int?
+  companyPost   CompanyPost? @relation(fields: [companyPostId], references: [id])
+  companyPostId Int?
 }
 
 // -------Report Part-------
 
 model UserPostReport {
-  id              Int      @id @default(autoincrement())
-  user            User     @relation(fields: [userId], references: [id])
-  userId          Int
-  reason          String
-  userPost        UserPost    @relation(fields: [userPostId], references: [id]) 
-  userPostId      Int
-  createdAt       DateTime @default(now())
-  check           Boolean @default(false)
-  delete          Boolean @default(false)
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  reason     String
+  userPost   UserPost @relation(fields: [userPostId], references: [id])
+  userPostId Int
+  createdAt  DateTime @default(now())
+  check      Boolean  @default(false)
+  delete     Boolean  @default(false)
 }
 
 model UserPostCommentReport {
-  id              Int      @id @default(autoincrement())
-  user            User     @relation(fields: [userId], references: [id])
-  userId          Int
-  reason          String
-  userPostComment        UserPostComment    @relation(fields: [userPostCommentId], references: [id]) 
-  userPostCommentId      Int
-  createdAt       DateTime @default(now())
-    check           Boolean @default(false)
-  delete          Boolean @default(false)
+  id                Int             @id @default(autoincrement())
+  user              User            @relation(fields: [userId], references: [id])
+  userId            Int
+  reason            String
+  userPostComment   UserPostComment @relation(fields: [userPostCommentId], references: [id])
+  userPostCommentId Int
+  createdAt         DateTime        @default(now())
+  check             Boolean         @default(false)
+  delete            Boolean         @default(false)
 }
 
 model UserPostReCommentReport {
-  id              Int      @id @default(autoincrement())
-  user            User     @relation(fields: [userId], references: [id])
-  userId          Int
-  reason          String
-  userPostReComment      UserPostReComment    @relation(fields: [userPostReCommentId], references: [id]) 
-  userPostReCommentId      Int
-  createdAt       DateTime @default(now())
-    check           Boolean @default(false)
-  delete          Boolean @default(false)
+  id                  Int               @id @default(autoincrement())
+  user                User              @relation(fields: [userId], references: [id])
+  userId              Int
+  reason              String
+  userPostReComment   UserPostReComment @relation(fields: [userPostReCommentId], references: [id])
+  userPostReCommentId Int
+  createdAt           DateTime          @default(now())
+  check               Boolean           @default(false)
+  delete              Boolean           @default(false)
 }
 
 model CompanyPostReport {
-  id              Int      @id @default(autoincrement())
-  user            User     @relation(fields: [userId], references: [id])
-  userId          Int
-  reason          String
-  companyPost        CompanyPost    @relation(fields: [companyPostId], references: [id]) 
-  companyPostId      Int
-  createdAt       DateTime @default(now())
-    check           Boolean @default(false)
-  delete          Boolean @default(false)
+  id            Int         @id @default(autoincrement())
+  user          User        @relation(fields: [userId], references: [id])
+  userId        Int
+  reason        String
+  companyPost   CompanyPost @relation(fields: [companyPostId], references: [id])
+  companyPostId Int
+  createdAt     DateTime    @default(now())
+  check         Boolean     @default(false)
+  delete        Boolean     @default(false)
 }
 
 model CompanyPostCommentReport {
-  id              Int      @id @default(autoincrement())
-  user            User     @relation(fields: [userId], references: [id])
-  userId          Int
-  reason          String
-  companyPostComment        CompanyPostComment    @relation(fields: [companyPostCommentId], references: [id], onDelete: Cascade) 
-  companyPostCommentId      Int
-  createdAt       DateTime @default(now())
-    check           Boolean @default(false)
-  delete          Boolean @default(false)
+  id                   Int                @id @default(autoincrement())
+  user                 User               @relation(fields: [userId], references: [id])
+  userId               Int
+  reason               String
+  companyPostComment   CompanyPostComment @relation(fields: [companyPostCommentId], references: [id], onDelete: Cascade)
+  companyPostCommentId Int
+  createdAt            DateTime           @default(now())
+  check                Boolean            @default(false)
+  delete               Boolean            @default(false)
 }
 
 model CompanyPostReCommentReport {
-  id              Int      @id @default(autoincrement())
-  user            User     @relation(fields: [userId], references: [id])
-  userId          Int
-  reason          String
-  companyPostReComment      CompanyPostReComment    @relation(fields: [companyPostReCommentId], references: [id]) 
-  companyPostReCommentId      Int
-  createdAt       DateTime @default(now())
-    check           Boolean @default(false)
-  delete          Boolean @default(false)
+  id                     Int                  @id @default(autoincrement())
+  user                   User                 @relation(fields: [userId], references: [id])
+  userId                 Int
+  reason                 String
+  companyPostReComment   CompanyPostReComment @relation(fields: [companyPostReCommentId], references: [id])
+  companyPostReCommentId Int
+  createdAt              DateTime             @default(now())
+  check                  Boolean              @default(false)
+  delete                 Boolean              @default(false)
 }
 
 // -------End of Report Part-------
