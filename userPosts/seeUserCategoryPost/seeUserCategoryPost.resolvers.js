@@ -5,7 +5,7 @@ export default {
     seeUserCategoryPost: (_, { category, offset }) =>
       client.userPost.findMany({
         where: { category },
-        take: 15,
+        take: 5,
         skip: offset,
         orderBy: {
           createdAt: "desc",

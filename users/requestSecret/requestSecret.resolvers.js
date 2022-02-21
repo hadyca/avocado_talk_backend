@@ -1,25 +1,19 @@
-import client from "../../client";
 import { generateSecret, sendSecretMail } from "../../utils";
+import { cache } from "../../cache";
 
 export default {
   Mutation: {
     requestSecret: async (_, { email }) => {
-      const loginSecret = generateSecret(111111, 999999);
-      await sendSecretMail(email, loginSecret);
+      try {
+        const loginSecret = generateSecret(111111, 999999);
+        await sendSecretMail(email, loginSecret);
 
-      const user = await client.user.update({
-        where: { email },
-        data: { loginSecret, authCode: 2 },
-      });
-
-      if (user.id) {
+        cache.set(email, loginSecret);
         return {
           ok: true,
         };
-      } else {
-        return {
-          ok: false,
-        };
+      } catch (e) {
+        return e;
       }
     },
   },

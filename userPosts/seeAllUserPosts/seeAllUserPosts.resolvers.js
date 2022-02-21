@@ -4,7 +4,7 @@ export default {
   Query: {
     seeAllUserPosts: (_, { offset }) =>
       client.userPost.findMany({
-        take: 15,
+        take: 5,
         skip: offset,
         orderBy: {
           createdAt: "desc",

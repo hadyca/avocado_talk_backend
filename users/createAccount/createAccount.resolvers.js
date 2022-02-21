@@ -1,6 +1,6 @@
-import bcrypt from "bcrypt";
 import client from "../../client";
 import { generateSecret, sendSecretMail } from "../../utils";
+import { cache } from "../../cache";
 
 export default {
   Mutation: {
@@ -31,29 +31,12 @@ export default {
               "이미 사용중인 유저명이 있습니다. 다른 유저명을 사용해 보세요!",
           };
         }
-        const uglyPassword = await bcrypt.hash(password, 10);
+
         const loginSecret = generateSecret(111111, 999999);
+
         await sendSecretMail(email, loginSecret);
-        const newUser = await client.user.create({
-          data: {
-            username,
-            email,
-            password: uglyPassword,
-            loginSecret,
-            authCode: 1,
-          },
-        });
-        setTimeout(async () => {
-          if (newUser.authCode === 1) {
-            await client.user.delete({
-              where: {
-                id: newUser.id,
-              },
-            });
-          } else {
-            return;
-          }
-        }, 300000);
+        cache.set(email, loginSecret);
+
         return {
           ok: true,
         };
