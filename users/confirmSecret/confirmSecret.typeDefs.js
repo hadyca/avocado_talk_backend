@@ -8,6 +8,11 @@ export default gql`
   }
 
   type Mutation {
-    confirmSecret(email: String!, secret: String!): confirmSecretResult!
+    confirmSecret(
+      email: String!
+      username: String!
+      password: String!
+      secret: String!
+    ): confirmSecretResult!
   }
 `;
