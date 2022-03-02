@@ -4,9 +4,9 @@ export default gql`
   type Mutation {
     createCompany(
       companyName: String!
+      aboutUs: String!
       email: String!
       sector: String!
-      aboutUs: String!
       contactNumber: String!
       addressStep1: String!
       addressStep2: String!
