@@ -14,10 +14,7 @@ export default {
           },
         });
         if (!ok) {
-          return {
-            ok: false,
-            error: "코멘트를 찾을 수 없습니다.",
-          };
+          throw new Error("존재 하지 않는 코멘트 입니다.");
         }
 
         const newComment = await client.userPostReComment.create({

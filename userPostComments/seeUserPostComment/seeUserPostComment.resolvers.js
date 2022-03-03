@@ -9,7 +9,7 @@ export default {
           include: { user: true },
         });
         if (!existingComment) {
-          throw new Error("코멘트가 삭제 되었습니다.");
+          throw new Error("존재 하지 않는 코멘트 입니다.");
         } else {
           return existingComment;
         }
