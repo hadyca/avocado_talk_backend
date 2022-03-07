@@ -37,3 +37,15 @@ export const sendSecretMail = (address, secret) => {
   };
   return sendMail(email);
 };
+
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const client = require("twilio")(accountSid, authToken);
+
+export const sendSecretSMS = client.messages
+  .create({
+    body: "김제형 문자 인증 테스트",
+    from: "+15078655787",
+    to: "+8201082768802",
+  })
+  .then((message) => console.log(message.sid, "성공"));

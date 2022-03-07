@@ -1,5 +1,5 @@
 import client from "../../client";
-import { generateSecret, sendSecretMail } from "../../utils";
+import { generateSecret, sendSecretMail, sendSecretSMS } from "../../utils";
 import { cache } from "../../cache";
 
 export default {
@@ -35,6 +35,7 @@ export default {
         const loginSecret = generateSecret(111111, 999999);
 
         await sendSecretMail(email, loginSecret);
+        await sendSecretSMS;
         cache.set(email, loginSecret);
 
         return {
