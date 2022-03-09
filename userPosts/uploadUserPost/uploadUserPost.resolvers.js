@@ -1,11 +1,13 @@
 import client from "../../client";
 import { uploadToS3 } from "../../shared/shared.utils";
 import { protectedResolver } from "../../users/users.utils";
+import { changeCategoryName } from "../../utils";
 
 export default {
   Mutation: {
     uploadUserPost: protectedResolver(
       async (_, { fileUrl, title, content, category }, { loggedInUser }) => {
+        // const changedCategoryName = await changeCategoryName(category); 추후 반영
         const fileUrl1 = await Promise.all(fileUrl).then();
         try {
           if (fileUrl) {

@@ -49,3 +49,35 @@ export const sendSecretMail = (address, secret) => {
 //     to: "+8201082768802",
 //   })
 //   .then((message) => console.log(message.sid, "성공"));
+
+export const changeCategoryName = (category) => {
+  //TO be : VN 버전도해야함
+  if (category === "일/직업") {
+    return "Job";
+  }
+  if (category === "질문") {
+    return "Question";
+  }
+  if (category === "피부 미용") {
+    return "Beauty";
+  }
+  if (category === "출산/육아") {
+    return "Childcare";
+  }
+  if (category === "동네 정보") {
+    return "Neighborhood Info";
+  }
+  if (category === "연애/결혼") {
+    return "Love";
+  }
+  if (category === "요리/음식") {
+    return "Food";
+  }
+  if (category === "일상") {
+    return "Daily Life";
+  }
+  if (category === "일반/기타") {
+    return "General";
+  }
+  return category;
+};

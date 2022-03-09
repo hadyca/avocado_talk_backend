@@ -5,13 +5,13 @@ export default gql`
     createCompany(
       companyName: String!
       aboutUs: String!
-      email: String!
       sector: String!
+      totalEmployees: Int!
+      email: String!
       contactNumber: String!
       addressStep1: String!
       addressStep2: String!
       addressStep3: String!
-      totalEmployees: Int
     ): MutationResponse!
   }
 `;
