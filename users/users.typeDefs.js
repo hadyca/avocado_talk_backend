@@ -14,6 +14,5 @@ export default gql`
     userPosts: [UserPost]
     createdAt: String!
     updatedAt: String!
-    # myCompany: Company
   }
 `;
