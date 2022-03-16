@@ -35,9 +35,8 @@ export default {
         const loginSecret = generateSecret(111111, 999999);
 
         await sendSecretMail(email, loginSecret);
-        await sendSecretSMS;
+        // await sendSecretSMS;
         cache.set(email, loginSecret);
-
         return {
           ok: true,
         };

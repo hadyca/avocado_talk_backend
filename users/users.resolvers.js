@@ -18,5 +18,15 @@ export default {
           },
         },
       }),
+    myCompany: ({ id }, _, { loggedInUser }) => {
+      if (!loggedInUser) {
+        return false;
+      }
+      return client.company.findUnique({
+        where: {
+          userId: id,
+        },
+      });
+    },
   },
 };
