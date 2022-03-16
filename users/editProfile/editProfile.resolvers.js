@@ -24,7 +24,10 @@ const resolverFn = async (
       },
     });
     if (existingUsername) {
-      throw new Error("이미 사용중인 유저이름이 있습니다.");
+      return {
+        ok: false,
+        error: "이미 사용중인 유저이름이 있습니다.",
+      };
     }
   }
 
