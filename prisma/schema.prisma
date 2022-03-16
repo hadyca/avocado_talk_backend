@@ -21,7 +21,7 @@ model User {
   favoritePosts               CompanyPost[]                @relation("FavoriteRelation", references: [id])
   companyPostLikes            CompanyPostLike[]
   userPostLikes               UserPostLike[]
-  companyOwner                Company?
+  myCompany                   Company?
   companyPostComments         CompanyPostComment[]
   companyPostReComments       CompanyPostReComment[]
   userPostComments            UserPostComment[]

@@ -73,7 +73,7 @@ CREATE TABLE "Company" (
     "email" TEXT NOT NULL,
     "aboutUs" TEXT NOT NULL,
     "contactNumber" TEXT NOT NULL,
-    "totalEmployees" INTEGER,
+    "totalEmployees" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 

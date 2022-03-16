@@ -8,9 +8,10 @@ export default {
         try {
           const existingCompany = await client.company.findUnique({
             where: {
-              userId: loggedInUser.id,
+              id: companyId,
             },
           });
+          console.log(existingCompany);
           if (!existingCompany) {
             return {
               ok: false,
