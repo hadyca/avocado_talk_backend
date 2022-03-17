@@ -6,10 +6,10 @@ export default {
       if (!loggedInUser) {
         return false;
       }
-      if (loggedInUser.companyOwner === null) {
+      if (loggedInUser.myCompany === null) {
         return false;
       }
-      return id === loggedInUser.companyOwner.id;
+      return id === loggedInUser.myCompany.id;
     },
     isFollowing: async ({ id }, _, { loggedInUser }) => {
       if (!loggedInUser) {

@@ -13,8 +13,7 @@ export default {
         if (existingEmail) {
           return {
             ok: false,
-            error:
-              "이미 사용중인 이메일 주소가 있습니다. 다른 이메일 주소를 입력해주세요.",
+            error: "이미 사용중인 이메일 주소가 있습니다.",
           };
         }
         return {

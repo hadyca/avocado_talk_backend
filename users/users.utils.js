@@ -10,7 +10,7 @@ export const getUser = async (token) => {
     const user = await client.user.findUnique({
       where: { id },
       include: {
-        companyOwner: true,
+        myCompany: true,
       },
     });
     if (user) {
