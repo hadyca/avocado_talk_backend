@@ -116,7 +116,6 @@ model CompanyPost {
   company             Company              @relation(fields: [companyId], references: [id])
   companyId           Int
   file                File[]
-  postSector          String
   title               String
   content             String
   createdAt           DateTime             @default(now())

@@ -2,6 +2,6 @@ import { gql } from "apollo-server";
 
 export default gql`
   type Query {
-    searchCompanyPosts(addressStep2: String, sector: String): [CompanyPost]
+    seeCompanyPostByDistrict(addressStep2: String!): [CompanyPost]
   }
 `;

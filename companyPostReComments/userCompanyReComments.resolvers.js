@@ -1,7 +1,7 @@
 import client from "../client";
 
 export default {
-  CompanyPostComment: {
+  CompanyPostReComment: {
     isMine: ({ userId }, _, { loggedInUser }) => {
       if (!loggedInUser) {
         return false;
@@ -12,14 +12,6 @@ export default {
       return client.user.findUnique({
         where: {
           id: userId,
-        },
-      });
-    },
-    companyPostReComments: ({ id }) => {
-      return client.companyPostReComment.findMany({
-        where: { companyPostCommentId: id },
-        orderBy: {
-          createdAt: "asc",
         },
       });
     },

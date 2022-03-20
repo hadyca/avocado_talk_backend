@@ -4,9 +4,7 @@ export default gql`
   type CompanyPost {
     id: String!
     company: Company!
-    fileUrl: String
-    fileKey: String
-    postSector: String!
+    file: [File]
     title: String!
     content: String!
     totalCompanyPostLikes: Int!
@@ -24,5 +22,11 @@ export default gql`
     companyPost: CompanyPost!
     createdAt: String!
     updatedAt: String!
+  }
+
+  type File {
+    id: String!
+    fileUrl: String!
+    fileKey: String!
   }
 `;

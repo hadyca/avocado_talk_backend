@@ -4,14 +4,19 @@ import { protectedResolver } from "../../users/users.utils";
 export default {
   Mutation: {
     deleteCompany: protectedResolver(
-      async (_, { companyId }, { loggedInUser }) => {
+      async (_, { userId }, { loggedInUser }) => {
         try {
+          if (userId !== loggedInUser.id) {
+            return {
+              ok: false,
+              error: "본인 회사가 아닙니다.",
+            };
+          }
           const existingCompany = await client.company.findUnique({
             where: {
-              id: companyId,
+              userId,
             },
           });
-          console.log(existingCompany);
           if (!existingCompany) {
             return {
               ok: false,
@@ -20,7 +25,7 @@ export default {
           }
           await client.company.delete({
             where: {
-              id: companyId,
+              userId: loggedInUser.id,
             },
           });
           return {

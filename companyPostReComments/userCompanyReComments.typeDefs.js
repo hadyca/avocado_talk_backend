@@ -1,13 +1,12 @@
 import { gql } from "apollo-server";
 
 export default gql`
-  type CompanyPostComment {
+  type CompanyPostReComment {
     id: String!
     user: User!
-    companyPost: CompanyPost!
     payload: String!
     isMine: Boolean!
-    companyPostReComments: [CompanyPostReComment]
+    companyPostComment: CompanyPostComment
     createdAt: String!
     updatedAt: String!
   }
