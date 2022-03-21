@@ -7,11 +7,45 @@ export default {
         where: { id: companyId },
       });
     },
+    companyPostComments: ({ id }) => {
+      return client.companyPostComment.findMany({
+        where: { companyPostId: id },
+        orderBy: {
+          createdAt: "asc",
+        },
+      });
+    },
+    file: ({ id }) => {
+      return client.file.findMany({
+        where: {
+          companyPostId: id,
+        },
+      });
+    },
     totalCompanyPostLikes: ({ id }) => {
       return client.companyPostLike.count({ where: { companyPostId: id } });
     },
-    totalCompanyPostComments: ({ id }) => {
-      return client.companyPostComment.count({ where: { companyPostId: id } });
+    totalCompanyPostComments: async ({ id }) => {
+      const PostComment = await client.companyPostComment.count({
+        where: {
+          companyPostId: id,
+        },
+      });
+
+      const reCommentArry = await client.companyPostComment.findMany({
+        where: { companyPostId: id },
+        select: {
+          _count: {
+            select: { companyPostReComments: true },
+          },
+        },
+      });
+
+      const reComment = reCommentArry.reduce((prev, cur) => {
+        return (prev += cur._count.companyPostReComments);
+      }, 0);
+
+      return PostComment + reComment;
     },
     isMine: ({ companyId }, _, { loggedInUser }) => {
       if (!loggedInUser) {
@@ -27,7 +61,7 @@ export default {
       const ok = await client.companyPostLike.findUnique({
         where: {
           userId_companyPostId: {
-            ompanyPostId: id,
+            companyPostId: id,
             userId: loggedInUser.id,
           },
         },
