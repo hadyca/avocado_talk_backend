@@ -5,6 +5,6 @@ export default gql`
     createCompanyPostComment(
       companyPostId: Int!
       payload: String!
-    ): MutationResponse!
+    ): CompanyPostComment
   }
 `;

@@ -8,7 +8,7 @@ export default {
     editUserPost: protectedResolver(
       async (
         _,
-        { userPostId, fileUrl, title, content, category },
+        { userPostId, fileUrl, content, category },
         { loggedInUser }
       ) => {
         try {
@@ -59,7 +59,6 @@ export default {
                 id: userPostId,
               },
               data: {
-                title,
                 content,
                 category,
               },

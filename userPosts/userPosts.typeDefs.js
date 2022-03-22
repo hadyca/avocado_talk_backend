@@ -5,7 +5,6 @@ export default gql`
     id: String!
     user: User!
     file: [File]
-    title: String!
     content: String!
     category: String!
     totalUserPostLikes: Int!

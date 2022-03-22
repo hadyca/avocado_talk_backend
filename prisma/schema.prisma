@@ -42,7 +42,6 @@ model UserPost {
   user             User              @relation(fields: [userId], references: [id])
   userId           Int
   file             File[]
-  title            String
   content          String
   category         String
   createdAt        DateTime          @default(now())

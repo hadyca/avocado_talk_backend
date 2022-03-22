@@ -6,14 +6,13 @@ import { changeCategoryName } from "../../utils";
 export default {
   Mutation: {
     uploadUserPost: protectedResolver(
-      async (_, { fileUrl, title, content, category }, { loggedInUser }) => {
+      async (_, { fileUrl, content, category }, { loggedInUser }) => {
         // const changedCategoryName = await changeCategoryName(category); 추후 반영
         const fileUrl1 = await Promise.all(fileUrl).then();
         try {
           if (fileUrl) {
             const newPost = await client.userPost.create({
               data: {
-                title,
                 content,
                 category,
                 user: {

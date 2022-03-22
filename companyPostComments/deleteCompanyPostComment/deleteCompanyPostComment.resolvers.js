@@ -11,8 +11,12 @@ export default {
           },
           select: {
             userId: true,
+            _count: {
+              select: { companyPostReComments: true },
+            },
           },
         });
+
         if (!comment) {
           return {
             ok: false,
@@ -31,6 +35,7 @@ export default {
           });
           return {
             ok: true,
+            totalRecomments: comment._count.companyPostReComments,
           };
         }
       }

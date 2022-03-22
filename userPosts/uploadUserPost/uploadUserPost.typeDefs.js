@@ -4,7 +4,6 @@ export default gql`
   type Mutation {
     uploadUserPost(
       fileUrl: [Upload]
-      title: String!
       content: String!
       category: String!
     ): UserPost

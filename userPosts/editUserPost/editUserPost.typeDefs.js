@@ -5,7 +5,6 @@ export default gql`
     editUserPost(
       userPostId: Int!
       fileUrl: [Upload]
-      title: String!
       content: String!
       category: String!
     ): MutationResponse!
