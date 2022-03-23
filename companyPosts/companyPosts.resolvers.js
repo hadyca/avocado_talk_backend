@@ -47,12 +47,17 @@ export default {
 
       return PostComment + reComment;
     },
-    isMine: ({ companyId }, _, { loggedInUser }) => {
+    isMine: async ({ companyId }, _, { loggedInUser }) => {
       if (!loggedInUser) {
         return false;
       }
-      return (client.company.findUnique({ where: { id: companyId } }).userId =
-        loggedInUser.id);
+      const getUser = await client.company.findUnique({
+        where: {
+          id: companyId,
+        },
+      });
+
+      return getUser.userId === loggedInUser.id;
     },
     isLiked: async ({ id }, _, { loggedInUser }) => {
       if (!loggedInUser) {
