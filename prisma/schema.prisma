@@ -56,7 +56,7 @@ model UserPostLike {
   id         Int      @id @default(autoincrement())
   user       User     @relation(fields: [userId], references: [id])
   userId     Int
-  userPost   UserPost @relation(fields: [userPostId], references: [id])
+  userPost   UserPost @relation(fields: [userPostId], references: [id],  onDelete: Cascade)
   userPostId Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -68,7 +68,7 @@ model UserPostComment {
   id                 Int                     @id @default(autoincrement())
   user               User                    @relation(fields: [userId], references: [id])
   userId             Int
-  userPost           UserPost                @relation(fields: [userPostId], references: [id])
+  userPost           UserPost                @relation(fields: [userPostId], references: [id],  onDelete: Cascade)
   userPostId         Int
   payload            String
   createdAt          DateTime                @default(now())
@@ -112,7 +112,7 @@ model Company {
 model CompanyPost {
   id                  Int                  @id @default(autoincrement())
   favoritedUser       User[]               @relation("FavoriteRelation", references: [id])
-  company             Company              @relation(fields: [companyId], references: [id])
+  company             Company              @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId           Int
   file                File[]
   title               String
@@ -129,7 +129,7 @@ model CompanyPostLike {
   id            Int         @id @default(autoincrement())
   user          User        @relation(fields: [userId], references: [id])
   userId        Int
-  companyPost   CompanyPost @relation(fields: [companyPostId], references: [id])
+  companyPost   CompanyPost @relation(fields: [companyPostId], references: [id], onDelete: Cascade)
   companyPostId Int
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
@@ -141,7 +141,7 @@ model CompanyPostComment {
   id                    Int                        @id @default(autoincrement())
   user                  User                       @relation(fields: [userId], references: [id])
   userId                Int
-  companyPost           CompanyPost                @relation(fields: [companyPostId], references: [id])
+  companyPost           CompanyPost                @relation(fields: [companyPostId], references: [id], onDelete: Cascade)
   companyPostId         Int
   payload               String
   createdAt             DateTime                   @default(now())
@@ -154,7 +154,7 @@ model CompanyPostReComment {
   id                   Int                          @id @default(autoincrement())
   user                 User                         @relation(fields: [userId], references: [id])
   userId               Int
-  companyPostComment   CompanyPostComment           @relation(fields: [companyPostCommentId], references: [id])
+  companyPostComment   CompanyPostComment           @relation(fields: [companyPostCommentId], references: [id], onDelete: Cascade)
   companyPostCommentId Int
   payload              String
   createdAt            DateTime                     @default(now())
@@ -168,7 +168,7 @@ model File {
   fileKey       String
   userPost      UserPost?    @relation(fields: [userPostId], references: [id])
   userPostId    Int?
-  companyPost   CompanyPost? @relation(fields: [companyPostId], references: [id])
+  companyPost   CompanyPost? @relation(fields: [companyPostId], references: [id], onDelete: Cascade)
   companyPostId Int?
 }
 
@@ -215,7 +215,7 @@ model CompanyPostReport {
   user          User        @relation(fields: [userId], references: [id])
   userId        Int
   reason        String
-  companyPost   CompanyPost @relation(fields: [companyPostId], references: [id])
+  companyPost   CompanyPost @relation(fields: [companyPostId], references: [id], onDelete: Cascade)
   companyPostId Int
   createdAt     DateTime    @default(now())
   check         Boolean     @default(false)
@@ -239,7 +239,7 @@ model CompanyPostReCommentReport {
   user                   User                 @relation(fields: [userId], references: [id])
   userId                 Int
   reason                 String
-  companyPostReComment   CompanyPostReComment @relation(fields: [companyPostReCommentId], references: [id])
+  companyPostReComment   CompanyPostReComment @relation(fields: [companyPostReCommentId], references: [id], onDelete: Cascade)
   companyPostReCommentId Int
   createdAt              DateTime             @default(now())
   check                  Boolean              @default(false)
