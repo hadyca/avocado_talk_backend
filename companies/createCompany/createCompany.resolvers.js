@@ -37,7 +37,6 @@ export default {
             },
           });
           if (existingEmail) {
-            console.log("이거?");
             return {
               ok: false,
               error:
@@ -62,7 +61,6 @@ export default {
             ok: true,
           };
         } catch (e) {
-          console.log("아님이거?");
           return e;
         }
       }
