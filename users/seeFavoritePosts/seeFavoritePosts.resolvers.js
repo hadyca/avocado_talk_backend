@@ -4,7 +4,7 @@ import { protectedResolver } from "../users.utils";
 export default {
   Query: {
     seeFavoritePosts: protectedResolver(
-      async (_, { lastId }, { loggedInUser }) => {
+      async (_, { offset }, { loggedInUser }) => {
         const ok = await client.user.findUnique({
           where: { id: loggedInUser.id },
           select: { id: true },
@@ -19,8 +19,10 @@ export default {
           .findUnique({ where: { id: loggedInUser.id } })
           .favoritePosts({
             take: 5,
-            skip: lastId ? 1 : 0,
-            ...(lastId && { cursor: { id: lastId } }),
+            skip: offset,
+            orderBy: {
+              createdAt: "desc",
+            },
           });
         return favoritePosts;
       }

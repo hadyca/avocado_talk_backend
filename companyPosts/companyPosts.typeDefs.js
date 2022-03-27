@@ -9,6 +9,7 @@ export default gql`
     content: String!
     totalCompanyPostLikes: Int!
     totalCompanyPostComments: Int!
+    isFavorite: Boolean!
     companyPostComments: [CompanyPostComment]
     createdAt: String!
     updatedAt: String!

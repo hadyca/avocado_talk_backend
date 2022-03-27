@@ -4,10 +4,10 @@ import { protectedResolver } from "../users.utils";
 export default {
   Mutation: {
     toggleFavoritePost: protectedResolver(
-      async (_, { postId }, { loggedInUser }) => {
+      async (_, { companyPostId }, { loggedInUser }) => {
         const post = await client.companyPost.findUnique({
           where: {
-            id: postId,
+            id: companyPostId,
           },
         });
         if (!post) {
@@ -20,7 +20,7 @@ export default {
           where: {
             id: loggedInUser.id,
             favoritePosts: {
-              some: { id: postId },
+              some: { id: companyPostId },
             },
           },
         });
@@ -33,7 +33,7 @@ export default {
             data: {
               favoritePosts: {
                 disconnect: {
-                  id: postId,
+                  id: companyPostId,
                 },
               },
             },
@@ -49,7 +49,7 @@ export default {
             data: {
               favoritePosts: {
                 connect: {
-                  id: postId,
+                  id: companyPostId,
                 },
               },
             },
