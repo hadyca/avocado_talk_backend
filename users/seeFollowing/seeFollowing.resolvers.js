@@ -2,27 +2,27 @@ import client from "../../client";
 
 export default {
   Query: {
-    seeFollowings: async (_, { username, offset }) => {
-      const ok = await client.user.findUnique({
-        where: { username },
+    seeFollowing: async (_, { userId, offset }) => {
+      const existingUser = await client.user.findUnique({
+        where: { id: userId },
         select: { id: true },
       });
-      if (!ok) {
+      if (!existingUser) {
         return {
           ok: false,
           error: "유저를 찾을 수 없습니다.",
         };
       }
-      const followings = await client.user
-        .findUnique({ where: { username } })
-        .followings({
+      const following = await client.user
+        .findUnique({ where: { id: userId } })
+        .following({
           take: 5,
           skip: offset,
           orderBy: {
             createdAt: "desc",
           },
         });
-      return followings;
+      return following;
     },
   },
 };

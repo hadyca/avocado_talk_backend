@@ -17,7 +17,8 @@ model User {
   avatar                      String?
   bio                         String?
   password                    String
-  followings                  Company[]                    @relation("FollowRelation", references: [id]) //회사 팔로잉 (팔로잉 하는 회사가 올리는 채용 글 읽기)
+  following                   User[]                        @relation("FollowRelation", references: [id]) //회사 팔로잉 (팔로잉 하는 회사가 올리는 채용 글 읽기)
+  followers                   User[]                       @relation("FollowRelation", references: [id])
   favoritePosts               CompanyPost[]                @relation("FavoriteRelation", references: [id])
   companyPostLikes            CompanyPostLike[]
   userPostLikes               UserPostLike[]
@@ -94,7 +95,6 @@ model Company {
   id             Int           @id @default(autoincrement())
   user           User          @relation(fields: [userId], references: [id])
   userId         Int           @unique
-  followers      User[]        @relation("FollowRelation", references: [id])
   companyName    String
   addressStep1   String //가장 큰 행정 구역 (시스템 제공)
   addressStep2   String //두번 째로 큰 행정 구역 (시스템 제공)

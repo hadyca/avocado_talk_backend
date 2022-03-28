@@ -16,27 +16,5 @@ export default {
       }
       return id === loggedInUser.myCompany.id;
     },
-    isFollowing: async ({ id }, _, { loggedInUser }) => {
-      if (!loggedInUser) {
-        return false;
-      }
-      const exists = await client.user.count({
-        where: {
-          username: loggedInUser.username,
-          followings: { some: { id } },
-        },
-      });
-      return Boolean(exists);
-    },
-    totalFollowers: ({ id }) =>
-      client.user.count({
-        where: {
-          followings: {
-            some: {
-              id,
-            },
-          },
-        },
-      }),
   },
 };

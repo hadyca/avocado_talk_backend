@@ -4,23 +4,23 @@ import { protectedResolver } from "../users.utils";
 export default {
   Mutation: {
     toggleFollowing: protectedResolver(
-      async (_, { companyId }, { loggedInUser }) => {
-        const company = await client.company.findUnique({
+      async (_, { userId }, { loggedInUser }) => {
+        const existingUser = await client.user.findUnique({
           where: {
-            id: companyId,
+            id: userId,
           },
         });
-        if (!company) {
+        if (!existingUser) {
           return {
             ok: false,
-            error: "회사를 찾을 수 없습니다.",
+            error: "유저를 찾을 수 없습니다.",
           };
         }
         const user = await client.user.findFirst({
           where: {
             id: loggedInUser.id,
-            followings: {
-              some: { id: companyId },
+            following: {
+              some: { id: userId },
             },
           },
         });
@@ -30,9 +30,9 @@ export default {
               id: loggedInUser.id,
             },
             data: {
-              followings: {
+              following: {
                 disconnect: {
-                  id: companyId,
+                  id: userId,
                 },
               },
             },
@@ -46,9 +46,9 @@ export default {
               id: loggedInUser.id,
             },
             data: {
-              followings: {
+              following: {
                 connect: {
-                  id: companyId,
+                  id: userId,
                 },
               },
             },

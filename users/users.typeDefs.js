@@ -8,9 +8,12 @@ export default gql`
     avatar: String
     bio: String
     isMe: Boolean!
-    followings: [Company]
+    following: [User]
+    followers: [User]
+    isFollowing: Boolean!
+    totalFollowers: Int!
     favoritePosts: [CompanyPost]
-    totalFollowings: Int!
+    totalFollowing: Int!
     userPosts: [UserPost]
     createdAt: String!
     updatedAt: String!

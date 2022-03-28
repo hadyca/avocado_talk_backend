@@ -14,8 +14,6 @@ export default gql`
     aboutUs: String!
     contactNumber: String!
     totalEmployees: Int
-    isFollowing: Boolean!
-    totalFollowers: Int!
     companyPosts: [CompanyPost]
     createdAt: String!
     updatedAt: String!
