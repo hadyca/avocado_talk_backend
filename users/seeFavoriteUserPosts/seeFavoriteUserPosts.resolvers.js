@@ -3,7 +3,7 @@ import { protectedResolver } from "../users.utils";
 
 export default {
   Query: {
-    seeFavoritePosts: protectedResolver(
+    seeFavoriteUserPosts: protectedResolver(
       async (_, { offset }, { loggedInUser }) => {
         const ok = await client.user.findUnique({
           where: { id: loggedInUser.id },
@@ -17,7 +17,7 @@ export default {
         }
         const favoritePosts = await client.user
           .findUnique({ where: { id: loggedInUser.id } })
-          .favoritePosts({
+          .favoriteUserPosts({
             take: 5,
             skip: offset,
             orderBy: {

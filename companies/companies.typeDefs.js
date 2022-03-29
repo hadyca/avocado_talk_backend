@@ -10,10 +10,10 @@ export default gql`
     addressStep3: String!
     email: String!
     sector: String!
-    isMyCompany: Boolean!
     aboutUs: String!
     contactNumber: String!
     totalEmployees: Int
+    isMyCompany: Boolean!
     companyPosts: [CompanyPost]
     createdAt: String!
     updatedAt: String!

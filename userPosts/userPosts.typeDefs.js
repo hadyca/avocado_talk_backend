@@ -9,6 +9,7 @@ export default gql`
     category: String!
     totalUserPostLikes: Int!
     totalUserPostComments: Int!
+    isFavorite: Boolean!
     userPostComments: [UserPostComment]
     deleted: Boolean!
     createdAt: String!

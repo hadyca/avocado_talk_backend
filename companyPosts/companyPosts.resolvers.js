@@ -66,7 +66,7 @@ export default {
       const exists = await client.user.count({
         where: {
           id: loggedInUser.id,
-          favoritePosts: { some: { id } },
+          favoriteCompanyPosts: { some: { id } },
         },
       });
       return Boolean(exists);

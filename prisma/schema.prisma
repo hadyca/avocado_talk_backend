@@ -19,7 +19,8 @@ model User {
   password                    String
   following                   User[]                        @relation("FollowRelation", references: [id]) //회사 팔로잉 (팔로잉 하는 회사가 올리는 채용 글 읽기)
   followers                   User[]                       @relation("FollowRelation", references: [id])
-  favoritePosts               CompanyPost[]                @relation("FavoriteRelation", references: [id])
+  favoriteUserPosts           UserPost[]                  @relation("UserFavoriteRelation", references: [id])
+  favoriteCompanyPosts        CompanyPost[]                @relation("CompanyFavoriteRelation", references: [id])
   companyPostLikes            CompanyPostLike[]
   userPostLikes               UserPostLike[]
   myCompany                   Company?
@@ -42,6 +43,7 @@ model UserPost {
   id               Int               @id @default(autoincrement())
   user             User              @relation(fields: [userId], references: [id])
   userId           Int
+  favoritedUser    User[]               @relation("UserFavoriteRelation", references: [id])
   file             File[]
   content          String
   category         String
@@ -111,7 +113,7 @@ model Company {
 
 model CompanyPost {
   id                  Int                  @id @default(autoincrement())
-  favoritedUser       User[]               @relation("FavoriteRelation", references: [id])
+  favoritedUser       User[]               @relation("CompanyFavoriteRelation", references: [id])
   company             Company              @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId           Int
   file                File[]

@@ -3,11 +3,11 @@ import { protectedResolver } from "../users.utils";
 
 export default {
   Mutation: {
-    toggleFavoritePost: protectedResolver(
-      async (_, { companyPostId }, { loggedInUser }) => {
-        const post = await client.companyPost.findUnique({
+    toggleFavoriteUserPost: protectedResolver(
+      async (_, { userPostId }, { loggedInUser }) => {
+        const post = await client.userPost.findUnique({
           where: {
-            id: companyPostId,
+            id: userPostId,
           },
         });
         if (!post) {
@@ -19,8 +19,8 @@ export default {
         const user = await client.user.findFirst({
           where: {
             id: loggedInUser.id,
-            favoritePosts: {
-              some: { id: companyPostId },
+            favoriteUserPosts: {
+              some: { id: userPostId },
             },
           },
         });
@@ -31,9 +31,9 @@ export default {
               id: loggedInUser.id,
             },
             data: {
-              favoritePosts: {
+              favoriteUserPosts: {
                 disconnect: {
-                  id: companyPostId,
+                  id: userPostId,
                 },
               },
             },
@@ -47,9 +47,9 @@ export default {
               id: loggedInUser.id,
             },
             data: {
-              favoritePosts: {
+              favoriteUserPosts: {
                 connect: {
-                  id: companyPostId,
+                  id: userPostId,
                 },
               },
             },

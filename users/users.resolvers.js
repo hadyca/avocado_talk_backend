@@ -1,4 +1,5 @@
 import client from "../client";
+import { getUserCompany } from "../companies/companies.utils";
 
 export default {
   User: {
@@ -50,5 +51,21 @@ export default {
           },
         },
       }),
+    totalUserPosts: ({ id }) =>
+      client.userPost.count({
+        where: {
+          userId: id,
+        },
+      }),
+    totalCompanyPosts: async ({ id }) => {
+      const userCompany = await getUserCompany(id);
+      console.log(userCompany);
+      const countingPost = await client.companyPost.count({
+        where: {
+          companyId: userCompany.id,
+        },
+      });
+      return countingPost;
+    },
   },
 };

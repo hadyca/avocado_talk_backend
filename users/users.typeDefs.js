@@ -12,8 +12,11 @@ export default gql`
     followers: [User]
     isFollowing: Boolean!
     totalFollowers: Int!
-    favoritePosts: [CompanyPost]
+    favoriteUserPosts: [UserPost]
+    favoriteCompanyPosts: [CompanyPost]
     totalFollowing: Int!
+    totalUserPosts: Int!
+    totalCompanyPosts: Int!
     userPosts: [UserPost]
     createdAt: String!
     updatedAt: String!
