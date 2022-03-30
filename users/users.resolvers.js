@@ -55,14 +55,18 @@ export default {
       client.userPost.count({
         where: {
           userId: id,
+          deleted: false,
         },
       }),
     totalCompanyPosts: async ({ id }) => {
       const userCompany = await getUserCompany(id);
-      console.log(userCompany);
+      if (!userCompany) {
+        return 0;
+      }
       const countingPost = await client.companyPost.count({
         where: {
           companyId: userCompany.id,
+          deleted: false,
         },
       });
       return countingPost;
