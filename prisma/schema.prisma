@@ -13,8 +13,10 @@ generator client {
 model User {
   id                          Int                          @id @default(autoincrement())
   username                    String                       @unique
+  editUsername                Boolean                      @default(true)
   email                       String                       @unique
-  avatar                      String?
+  avatarUrl                   String?
+  avatarKey                   String?
   bio                         String?
   password                    String
   following                   User[]                        @relation("FollowRelation", references: [id]) 
@@ -168,7 +170,7 @@ model File {
   id            Int          @id @default(autoincrement())
   fileUrl       String
   fileKey       String
-  userPost      UserPost?    @relation(fields: [userPostId], references: [id])
+  userPost      UserPost?    @relation(fields: [userPostId], references: [id], onDelete: Cascade)
   userPostId    Int?
   companyPost   CompanyPost? @relation(fields: [companyPostId], references: [id], onDelete: Cascade)
   companyPostId Int?

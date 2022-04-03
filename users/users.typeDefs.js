@@ -4,6 +4,7 @@ export default gql`
   type User {
     id: String!
     username: String!
+    editUsername: Boolean!
     email: String!
     avatar: String
     bio: String
