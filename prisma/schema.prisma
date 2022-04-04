@@ -13,7 +13,7 @@ generator client {
 model User {
   id                          Int                          @id @default(autoincrement())
   username                    String                       @unique
-  editUsername                Boolean                      @default(true)
+  usernameEditDate            Int?
   email                       String                       @unique
   avatarUrl                   String?
   avatarKey                   String?

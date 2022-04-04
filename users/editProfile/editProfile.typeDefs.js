@@ -4,9 +4,10 @@ export default gql`
   type Mutation {
     editProfile(
       username: String
+      usernameEditDate: Int
       password: String
       bio: String
-      avatar: Upload
-    ): MutationResponse!
+      avatarUrl: Upload
+    ): User!
   }
 `;

@@ -5,7 +5,13 @@ import { deleteFile, uploadToS3 } from "../../shared/shared.utils";
 
 const resolverFn = async (
   _,
-  { username: newUsername, password: newPassword, bio, avatar },
+  {
+    username: newUsername,
+    usernameEditDate,
+    password: newPassword,
+    bio,
+    avatarUrl,
+  },
   { loggedInUser }
 ) => {
   const existingUser = await client.user.findUnique({
@@ -14,11 +20,11 @@ const resolverFn = async (
     },
   });
   let awsFileUrl = null;
-  if (avatar) {
+  if (avatarUrl) {
     if (existingUser.avatarKey) {
       await deleteFile(existingUser.avatarKey);
     }
-    awsFileUrl = await uploadToS3(avatar, loggedInUser.id, "avatar");
+    awsFileUrl = await uploadToS3(avatarUrl, loggedInUser.id, "avatar");
   }
 
   let uglyPassword = null;
@@ -26,43 +32,13 @@ const resolverFn = async (
     uglyPassword = await bcrypt.hash(newPassword, 10);
   }
   if (newUsername) {
-    if (!existingUser.editUsername) {
-      return {
-        ok: false,
-        error: "username은 30일에 한번만 변경 가능합니다.",
-      };
-    }
-    // await client.user.update({
-    //   where: {
-    //     id: loggedInUser,
-    //   },
-    //   data: {
-    //     editUsername: false,
-    //   },
-    // });
-    // setTimeout(
-    //   async () =>
-    //     await client.user.update({
-    //       where: {
-    //         id: loggedInUser.id,
-    //       },
-    //       data: {
-    //         editUsername: true,
-    //       },
-    //     }),
-    //   1000 * 60 * 60 * 24 * 30
-    // );
-
     const existingUsername = await client.user.findFirst({
       where: {
         username: newUsername,
       },
     });
     if (existingUsername) {
-      return {
-        ok: false,
-        error: "이미 사용중인 유저이름이 있습니다.",
-      };
+      throw new Error("이미 사용중인 유저이름이 있습니다.");
     }
   }
 
@@ -70,6 +46,7 @@ const resolverFn = async (
     where: { id: loggedInUser.id },
     data: {
       ...(newUsername && { username: newUsername }),
+      usernameEditDate,
       bio,
       ...(uglyPassword && { password: uglyPassword }),
       ...(awsFileUrl && {
@@ -79,14 +56,9 @@ const resolverFn = async (
     },
   });
   if (updatedUser.id) {
-    return {
-      ok: true,
-    };
+    return updatedUser;
   } else {
-    return {
-      ok: false,
-      error: "프로필을 업데이트 할 수 없습니다.",
-    };
+    throw new Error("프로필을 업데이트 할 수 없습니다.");
   }
 };
 
