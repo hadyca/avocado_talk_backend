@@ -4,7 +4,7 @@ export default gql`
   type Mutation {
     editProfile(
       username: String
-      usernameEditDate: Int
+      usernameEditDate: String
       password: String
       bio: String
       avatarUrl: Upload

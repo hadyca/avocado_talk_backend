@@ -38,3 +38,9 @@ export const protectedResolver =
     }
     return ourResolver(root, args, context, info);
   };
+
+export const betweenDay = (newDate, originDate) => {
+  const betweenTime = Math.floor((newDate - originDate) / 1000 / 60);
+  const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+  return betweenTimeDay;
+};

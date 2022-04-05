@@ -2,12 +2,13 @@ import client from "../../client";
 import bcrypt from "bcrypt";
 import { protectedResolver } from "../users.utils";
 import { deleteFile, uploadToS3 } from "../../shared/shared.utils";
+import { betweenDay } from "../users.utils";
 
 const resolverFn = async (
   _,
   {
     username: newUsername,
-    usernameEditDate,
+    usernameEditDate: newUsernameEditDate,
     password: newPassword,
     bio,
     avatarUrl,
@@ -31,6 +32,15 @@ const resolverFn = async (
   if (newPassword) {
     uglyPassword = await bcrypt.hash(newPassword, 10);
   }
+  if (newUsernameEditDate) {
+    const betweenDays = betweenDay(
+      parseInt(newUsernameEditDate),
+      parseInt(existingUser.usernameEditDate)
+    );
+    if (betweenDays < 30) {
+      throw new Error("30일에 한 번만 변경 가능합니다.");
+    }
+  }
   if (newUsername) {
     const existingUsername = await client.user.findFirst({
       where: {
@@ -46,7 +56,7 @@ const resolverFn = async (
     where: { id: loggedInUser.id },
     data: {
       ...(newUsername && { username: newUsername }),
-      usernameEditDate,
+      ...(newUsernameEditDate && { usernameEditDate: newUsernameEditDate }),
       bio,
       ...(uglyPassword && { password: uglyPassword }),
       ...(awsFileUrl && {
