@@ -37,6 +37,8 @@ model User {
   companyPostReports          CompanyPostReport[]
   companyPostCommentReports   CompanyPostCommentReport[]
   companyPostReCommentReports CompanyPostReCommentReport[]
+  userReports                 UserReport[]               @relation("ReportRelation")
+  reports                     UserReport[]              @relation("ReportedRelation")
   createdAt                   DateTime                     @default(now())
   updatedAt                   DateTime                     @updatedAt
 }
@@ -249,6 +251,18 @@ model CompanyPostReCommentReport {
   createdAt              DateTime             @default(now())
   check                  Boolean              @default(false)
   delete                 Boolean              @default(false)
+}
+
+model UserReport {
+  id                Int      @id @default(autoincrement())
+  FromUser        User      @relation("ReportRelation",fields: [FromUserId], references: [id])
+  FromUserId      Int
+  ToUser      User       @relation("ReportedRelation", fields: [ToUserId], references: [id])
+  ToUserId    Int
+  reason            String
+  createdAt         DateTime @default(now())
+  check             Boolean  @default(false)
+  delete            Boolean  @default(false)
 }
 
 // -------End of Report Part-------
