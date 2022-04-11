@@ -16,7 +16,7 @@ export default {
       const following = await client.user
         .findUnique({ where: { id: userId } })
         .following({
-          take: 5,
+          take: 15,
           skip: offset,
           orderBy: {
             createdAt: "desc",

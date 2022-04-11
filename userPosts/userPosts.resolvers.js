@@ -55,14 +55,11 @@ export default {
       }
       return userId === loggedInUser.id;
     },
-    isFavorite: async ({ userId }, _, { loggedInUser }) => {
-      if (!loggedInUser) {
-        return false;
-      }
+    isFavorite: async ({ id }, _, { loggedInUser }) => {
       const exists = await client.user.count({
         where: {
           id: loggedInUser.id,
-          favoriteUserPosts: { some: { userId } },
+          favoriteUserPosts: { some: { id } },
         },
       });
       return Boolean(exists);
