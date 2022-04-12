@@ -5,57 +5,54 @@ export default {
   Mutation: {
     toggleFollowing: protectedResolver(
       async (_, { userId }, { loggedInUser }) => {
-        const existingUser = await client.user.findUnique({
-          where: {
-            id: userId,
-          },
-        });
-        if (!existingUser) {
-          return {
-            ok: false,
-            error: "유저를 찾을 수 없습니다.",
-          };
-        }
-        const user = await client.user.findFirst({
-          where: {
-            id: loggedInUser.id,
-            following: {
-              some: { id: userId },
+        try {
+          const existingUser = await client.user.findUnique({
+            where: {
+              id: userId,
             },
-          },
-        });
-        if (user) {
-          await client.user.update({
+          });
+          if (!existingUser) {
+            throw new Error("존재 하지 않는 유저 입니다.");
+          }
+          const user = await client.user.findFirst({
             where: {
               id: loggedInUser.id,
-            },
-            data: {
               following: {
-                disconnect: {
-                  id: userId,
-                },
+                some: { id: userId },
               },
             },
           });
-          return {
-            ok: true,
-          };
-        } else {
-          await client.user.update({
-            where: {
-              id: loggedInUser.id,
-            },
-            data: {
-              following: {
-                connect: {
-                  id: userId,
+          if (user) {
+            const updatedUser = await client.user.update({
+              where: {
+                id: loggedInUser.id,
+              },
+              data: {
+                following: {
+                  disconnect: {
+                    id: userId,
+                  },
                 },
               },
-            },
-          });
-          return {
-            ok: true,
-          };
+            });
+            return updatedUser;
+          } else {
+            const updatedUser = await client.user.update({
+              where: {
+                id: loggedInUser.id,
+              },
+              data: {
+                following: {
+                  connect: {
+                    id: userId,
+                  },
+                },
+              },
+            });
+            return updatedUser;
+          }
+        } catch (e) {
+          console.log(e);
         }
       }
     ),

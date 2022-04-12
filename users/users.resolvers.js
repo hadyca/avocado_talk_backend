@@ -30,9 +30,6 @@ export default {
       });
     },
     isFollowing: async ({ id }, _, { loggedInUser }) => {
-      if (!loggedInUser) {
-        return false;
-      }
       const exists = await client.user.count({
         where: {
           username: loggedInUser.username,
