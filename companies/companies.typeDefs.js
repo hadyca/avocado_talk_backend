@@ -12,7 +12,7 @@ export default gql`
     sector: String!
     aboutUs: String!
     contactNumber: String!
-    totalEmployees: Int
+    totalEmployees: Int!
     isMyCompany: Boolean!
     companyPosts: [CompanyPost]
     createdAt: String!
