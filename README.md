@@ -52,7 +52,7 @@
 
 - [x] uploadPost
 - [x] editCompanyPost 오져따,, 완료
-- [ ] deletePost //삭제 기능 넣지 말자 -> 이유 : 서비스 초기에는 정보들이 쌓여야 함
+- [x] deletePost
 - [x] seeCompanyPost
 - [x] seeCompanyAllPost
 - [x] totalCompanyPostLikes (computed)

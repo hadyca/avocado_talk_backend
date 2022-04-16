@@ -2,7 +2,7 @@
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "username" TEXT NOT NULL,
-    "usernameEditDate" BIGINT NOT NULL,
+    "usernameEditDate" TEXT,
     "email" TEXT NOT NULL,
     "avatarUrl" TEXT,
     "avatarKey" TEXT,
@@ -219,6 +219,19 @@ CREATE TABLE "CompanyPostReCommentReport" (
 );
 
 -- CreateTable
+CREATE TABLE "UserReport" (
+    "id" SERIAL NOT NULL,
+    "FromUserId" INTEGER NOT NULL,
+    "ToUserId" INTEGER NOT NULL,
+    "reason" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "check" BOOLEAN NOT NULL DEFAULT false,
+    "delete" BOOLEAN NOT NULL DEFAULT false,
+
+    CONSTRAINT "UserReport_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "_FollowRelation" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL
@@ -358,6 +371,12 @@ ALTER TABLE "CompanyPostReCommentReport" ADD CONSTRAINT "CompanyPostReCommentRep
 
 -- AddForeignKey
 ALTER TABLE "CompanyPostReCommentReport" ADD CONSTRAINT "CompanyPostReCommentReport_companyPostReCommentId_fkey" FOREIGN KEY ("companyPostReCommentId") REFERENCES "CompanyPostReComment"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserReport" ADD CONSTRAINT "UserReport_FromUserId_fkey" FOREIGN KEY ("FromUserId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserReport" ADD CONSTRAINT "UserReport_ToUserId_fkey" FOREIGN KEY ("ToUserId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_FollowRelation" ADD FOREIGN KEY ("A") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
