@@ -5,6 +5,11 @@ export default gql`
     uploadCompanyPost(
       fileUrl: [Upload]
       title: String!
+      day: String!
+      dayOption: Boolean
+      startTime: String!
+      finishTime: String!
+      timeOption: Boolean
       content: String!
     ): CompanyPost
   }

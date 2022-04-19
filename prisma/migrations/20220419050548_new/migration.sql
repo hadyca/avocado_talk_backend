@@ -86,6 +86,11 @@ CREATE TABLE "CompanyPost" (
     "id" SERIAL NOT NULL,
     "companyId" INTEGER NOT NULL,
     "title" TEXT NOT NULL,
+    "day" TEXT NOT NULL,
+    "dayOption" BOOLEAN NOT NULL DEFAULT false,
+    "startTime" TEXT NOT NULL,
+    "finishTime" TEXT NOT NULL,
+    "timeOption" BOOLEAN NOT NULL DEFAULT false,
     "content" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -260,9 +265,6 @@ CREATE UNIQUE INDEX "UserPostLike_userId_userPostId_key" ON "UserPostLike"("user
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Company_userId_key" ON "Company"("userId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Company_email_key" ON "Company"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "CompanyPostLike_userId_companyPostId_key" ON "CompanyPostLike"("userId", "companyPostId");

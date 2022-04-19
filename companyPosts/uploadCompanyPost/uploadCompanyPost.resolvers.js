@@ -5,13 +5,31 @@ import { protectedResolver } from "../../users/users.utils";
 export default {
   Mutation: {
     uploadCompanyPost: protectedResolver(
-      async (_, { fileUrl, title, content }, { loggedInUser }) => {
+      async (
+        _,
+        {
+          fileUrl,
+          title,
+          day,
+          dayOption,
+          startTime,
+          finishTime,
+          timeOption,
+          content,
+        },
+        { loggedInUser }
+      ) => {
         const fileUrl1 = await Promise.all(fileUrl).then();
         try {
           if (fileUrl) {
             const newPost = await client.companyPost.create({
               data: {
                 title,
+                day,
+                dayOption,
+                startTime,
+                finishTime,
+                timeOption,
                 content,
                 company: {
                   connect: {
