@@ -6,6 +6,13 @@ export default gql`
     company: Company!
     file: [File]
     title: String!
+    workingDay: WorkingDay
+    dayOption: Boolean!
+    startTime: Int!
+    finishTime: Int!
+    timeOption: Boolean!
+    wageType: String!
+    wage: Int!
     content: String!
     totalCompanyPostLikes: Int!
     totalCompanyPostComments: Int!
@@ -29,5 +36,16 @@ export default gql`
     id: String!
     fileUrl: String!
     fileKey: String!
+  }
+
+  type WorkingDay {
+    id: String!
+    monday: Boolean!
+    tuesday: Boolean!
+    wednesday: Boolean!
+    thursday: Boolean!
+    friday: Boolean!
+    saturday: Boolean!
+    sunday: Boolean!
   }
 `;

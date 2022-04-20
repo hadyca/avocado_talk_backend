@@ -123,11 +123,13 @@ model CompanyPost {
   companyId           Int
   file                File[]
   title               String
-  workingDay          WorkingDay[]
+  workingDay          WorkingDay?
   dayOption           Boolean             @default(false)
-  startTime           String
-  finishTime          String
+  startTime           Int
+  finishTime          Int
   timeOption          Boolean             @default(false)
+  wageType            String
+  wage                Int
   content             String
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
@@ -272,7 +274,7 @@ model UserReport {
 
 model WorkingDay {
   id                  Int                      @id @default(autoincrement())
-  companyPost         CompanyPost              @relation(fields: [companyPostId], references: [id], onDelete: Cascade)
+  companyPost         CompanyPost              @relation(fields: [companyPostId], references: [id])
   companyPostId       Int
   monday              Boolean
   tuesday             Boolean

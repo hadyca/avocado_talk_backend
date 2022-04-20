@@ -86,10 +86,9 @@ CREATE TABLE "CompanyPost" (
     "id" SERIAL NOT NULL,
     "companyId" INTEGER NOT NULL,
     "title" TEXT NOT NULL,
-    "day" TEXT NOT NULL,
     "dayOption" BOOLEAN NOT NULL DEFAULT false,
-    "startTime" TEXT NOT NULL,
-    "finishTime" TEXT NOT NULL,
+    "startTime" INTEGER NOT NULL,
+    "finishTime" INTEGER NOT NULL,
     "timeOption" BOOLEAN NOT NULL DEFAULT false,
     "content" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -237,6 +236,21 @@ CREATE TABLE "UserReport" (
 );
 
 -- CreateTable
+CREATE TABLE "WorkingDay" (
+    "id" SERIAL NOT NULL,
+    "companyPostId" INTEGER NOT NULL,
+    "monday" BOOLEAN NOT NULL,
+    "tuesday" BOOLEAN NOT NULL,
+    "wednesday" BOOLEAN NOT NULL,
+    "thursday" BOOLEAN NOT NULL,
+    "friday" BOOLEAN NOT NULL,
+    "saturday" BOOLEAN NOT NULL,
+    "sunday" BOOLEAN NOT NULL,
+
+    CONSTRAINT "WorkingDay_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "_FollowRelation" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL
@@ -379,6 +393,9 @@ ALTER TABLE "UserReport" ADD CONSTRAINT "UserReport_FromUserId_fkey" FOREIGN KEY
 
 -- AddForeignKey
 ALTER TABLE "UserReport" ADD CONSTRAINT "UserReport_ToUserId_fkey" FOREIGN KEY ("ToUserId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "WorkingDay" ADD CONSTRAINT "WorkingDay_companyPostId_fkey" FOREIGN KEY ("companyPostId") REFERENCES "CompanyPost"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_FollowRelation" ADD FOREIGN KEY ("A") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

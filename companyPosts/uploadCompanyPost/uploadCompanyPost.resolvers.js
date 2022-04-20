@@ -10,11 +10,19 @@ export default {
         {
           fileUrl,
           title,
-          day,
+          mon,
+          tue,
+          wed,
+          thu,
+          fri,
+          sat,
+          sun,
           dayOption,
           startTime,
           finishTime,
           timeOption,
+          wageType,
+          wage,
           content,
         },
         { loggedInUser }
@@ -25,15 +33,32 @@ export default {
             const newPost = await client.companyPost.create({
               data: {
                 title,
-                day,
                 dayOption,
                 startTime,
                 finishTime,
                 timeOption,
+                wageType,
+                wage,
                 content,
                 company: {
                   connect: {
                     userId: loggedInUser.id,
+                  },
+                },
+              },
+            });
+            await client.workingDay.create({
+              data: {
+                monday: mon,
+                tuesday: tue,
+                wednesday: wed,
+                thursday: thu,
+                friday: fri,
+                saturday: sat,
+                sunday: sun,
+                companyPost: {
+                  connect: {
+                    id: newPost.id,
                   },
                 },
               },
