@@ -17,7 +17,7 @@ export default gql`
       finishTime: Int!
       timeOption: Boolean!
       wageType: String!
-      wage: Int!
+      wage: String!
       content: String!
     ): CompanyPost
   }

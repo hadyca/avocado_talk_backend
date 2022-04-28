@@ -90,6 +90,8 @@ CREATE TABLE "CompanyPost" (
     "startTime" INTEGER NOT NULL,
     "finishTime" INTEGER NOT NULL,
     "timeOption" BOOLEAN NOT NULL DEFAULT false,
+    "wageType" TEXT NOT NULL,
+    "wage" TEXT NOT NULL,
     "content" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -284,6 +286,9 @@ CREATE UNIQUE INDEX "Company_userId_key" ON "Company"("userId");
 CREATE UNIQUE INDEX "CompanyPostLike_userId_companyPostId_key" ON "CompanyPostLike"("userId", "companyPostId");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "WorkingDay_companyPostId_key" ON "WorkingDay"("companyPostId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "_FollowRelation_AB_unique" ON "_FollowRelation"("A", "B");
 
 -- CreateIndex
@@ -395,7 +400,7 @@ ALTER TABLE "UserReport" ADD CONSTRAINT "UserReport_FromUserId_fkey" FOREIGN KEY
 ALTER TABLE "UserReport" ADD CONSTRAINT "UserReport_ToUserId_fkey" FOREIGN KEY ("ToUserId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "WorkingDay" ADD CONSTRAINT "WorkingDay_companyPostId_fkey" FOREIGN KEY ("companyPostId") REFERENCES "CompanyPost"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "WorkingDay" ADD CONSTRAINT "WorkingDay_companyPostId_fkey" FOREIGN KEY ("companyPostId") REFERENCES "CompanyPost"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_FollowRelation" ADD FOREIGN KEY ("A") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
