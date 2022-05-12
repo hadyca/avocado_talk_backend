@@ -130,6 +130,7 @@ model CompanyPost {
   timeOption          Boolean             @default(false)
   wageType            String
   wage                String
+  wageOption          Boolean             @default(false)
   content             String
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
