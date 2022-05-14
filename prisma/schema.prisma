@@ -129,7 +129,7 @@ model CompanyPost {
   finishTime          Int
   timeOption          Boolean             @default(false)
   wageType            String
-  wage                Int
+  wage                String
   wageOption          Boolean             @default(false)
   content             String
   createdAt           DateTime             @default(now())
