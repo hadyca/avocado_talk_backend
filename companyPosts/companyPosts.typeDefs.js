@@ -12,7 +12,7 @@ export default gql`
     finishTime: Int!
     timeOption: Boolean!
     wageType: String!
-    wage: String!
+    wage: Int!
     wageOption: Boolean!
     content: String!
     totalCompanyPostLikes: Int!
