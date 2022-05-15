@@ -2,12 +2,52 @@ import client from "../../client";
 
 export default {
   Query: {
-    seeCompanyPostByDistrict: (_, { addressStep2, offset }) =>
+    seeCompanyPostByDistrict: (
+      _,
+      {
+        addressStep1,
+        addressStep2_1,
+        addressStep2_2,
+        addressStep2_3,
+        addressStep2_4,
+        addressStep2_5,
+        offset,
+      }
+    ) =>
       client.companyPost.findMany({
         where: {
-          company: {
-            addressStep2,
-          },
+          OR: [
+            {
+              company: {
+                addressStep1,
+              },
+            },
+            {
+              company: {
+                addressStep2: addressStep2_1,
+              },
+            },
+            {
+              company: {
+                addressStep2: addressStep2_2,
+              },
+            },
+            {
+              company: {
+                addressStep2: addressStep2_3,
+              },
+            },
+            {
+              company: {
+                addressStep2: addressStep2_4,
+              },
+            },
+            {
+              company: {
+                addressStep2: addressStep2_5,
+              },
+            },
+          ],
         },
         take: 5,
         skip: offset,

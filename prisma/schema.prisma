@@ -130,7 +130,6 @@ model CompanyPost {
   timeOption          Boolean             @default(false)
   wageType            String
   wage                String
-  wageOption          Boolean             @default(false)
   content             String
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
@@ -277,12 +276,12 @@ model WorkingDay {
   id                  Int                      @id @default(autoincrement())
   companyPost         CompanyPost              @relation(fields: [companyPostId], references: [id])
   companyPostId       Int
-  monday              Boolean
-  tuesday             Boolean
-  wednesday           Boolean
-  thursday            Boolean
-  friday              Boolean
-  saturday            Boolean
-  sunday              Boolean
+  monday              Boolean                  @default(false)
+  tuesday             Boolean                  @default(false)
+  wednesday           Boolean                  @default(false)
+  thursday            Boolean                  @default(false)
+  friday              Boolean                  @default(false)
+  saturday            Boolean                  @default(false)
+  sunday              Boolean                  @default(false)
 }
 // -------End of Report Part-------

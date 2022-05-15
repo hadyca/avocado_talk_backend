@@ -23,7 +23,6 @@ export default {
           timeOption,
           wageType,
           wage,
-          wageOption,
           content,
         },
         { loggedInUser }
@@ -40,7 +39,6 @@ export default {
                 timeOption,
                 wageType,
                 wage,
-                wageOption,
                 content,
                 company: {
                   connect: {
@@ -49,7 +47,7 @@ export default {
                 },
               },
             });
-            await client.workingDay.create({
+            const test = await client.workingDay.create({
               data: {
                 monday: mon,
                 tuesday: tue,
@@ -65,6 +63,7 @@ export default {
                 },
               },
             });
+            console.log(newPost);
             for (let value of fileUrl1) {
               const awsFileUrl = await uploadToS3(
                 value,

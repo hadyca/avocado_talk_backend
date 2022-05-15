@@ -7,6 +7,13 @@ export default {
         where: { id: companyId },
       });
     },
+    workingDay: ({ id }) => {
+      return client.workingDay.findUnique({
+        where: {
+          id,
+        },
+      });
+    },
     companyPostComments: ({ id }) => {
       return client.companyPostComment.findMany({
         where: { companyPostId: id },

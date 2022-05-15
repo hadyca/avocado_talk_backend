@@ -92,7 +92,6 @@ CREATE TABLE "CompanyPost" (
     "timeOption" BOOLEAN NOT NULL DEFAULT false,
     "wageType" TEXT NOT NULL,
     "wage" TEXT NOT NULL,
-    "wageOption" BOOLEAN NOT NULL DEFAULT false,
     "content" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -242,13 +241,13 @@ CREATE TABLE "UserReport" (
 CREATE TABLE "WorkingDay" (
     "id" SERIAL NOT NULL,
     "companyPostId" INTEGER NOT NULL,
-    "monday" BOOLEAN NOT NULL,
-    "tuesday" BOOLEAN NOT NULL,
-    "wednesday" BOOLEAN NOT NULL,
-    "thursday" BOOLEAN NOT NULL,
-    "friday" BOOLEAN NOT NULL,
-    "saturday" BOOLEAN NOT NULL,
-    "sunday" BOOLEAN NOT NULL,
+    "monday" BOOLEAN NOT NULL DEFAULT false,
+    "tuesday" BOOLEAN NOT NULL DEFAULT false,
+    "wednesday" BOOLEAN NOT NULL DEFAULT false,
+    "thursday" BOOLEAN NOT NULL DEFAULT false,
+    "friday" BOOLEAN NOT NULL DEFAULT false,
+    "saturday" BOOLEAN NOT NULL DEFAULT false,
+    "sunday" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "WorkingDay_pkey" PRIMARY KEY ("id")
 );
