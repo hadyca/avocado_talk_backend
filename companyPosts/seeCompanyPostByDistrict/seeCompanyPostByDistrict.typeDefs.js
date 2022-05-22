@@ -3,7 +3,11 @@ import { gql } from "apollo-server";
 export default gql`
   type Query {
     seeCompanyPostByDistrict(
-      addressStep1: String
+      addressStep1_1: String
+      addressStep1_2: String
+      addressStep1_3: String
+      addressStep1_4: String
+      addressStep1_5: String
       addressStep2_1: String
       addressStep2_2: String
       addressStep2_3: String
