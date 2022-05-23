@@ -63,7 +63,7 @@ export default {
                 },
               },
             });
-            console.log(newPost);
+
             for (let value of fileUrl1) {
               const awsFileUrl = await uploadToS3(
                 value,
