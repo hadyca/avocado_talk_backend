@@ -4,7 +4,12 @@ export default {
   Query: {
     seeUserCategoryPost: (_, { category, offset }) =>
       client.userPost.findMany({
-        where: { category },
+        where: {
+          category,
+          NOT: {
+            deleted: true,
+          },
+        },
         take: 5,
         skip: offset,
         orderBy: {

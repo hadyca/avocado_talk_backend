@@ -8,6 +8,9 @@ export default {
           company: {
             sector,
           },
+          NOT: {
+            deleted: true,
+          },
         },
         take: 5,
         skip: offset,

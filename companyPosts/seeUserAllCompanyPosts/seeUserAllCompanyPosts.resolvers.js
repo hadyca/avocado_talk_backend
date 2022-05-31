@@ -4,7 +4,12 @@ export default {
   Query: {
     seeUserAllCompanyPosts: (_, { companyId, offset }) =>
       client.companyPost.findMany({
-        where: { companyId },
+        where: {
+          companyId,
+          NOT: {
+            deleted: true,
+          },
+        },
         take: 5,
         skip: offset,
         orderBy: {

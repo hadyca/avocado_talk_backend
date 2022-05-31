@@ -72,6 +72,9 @@ export default {
               },
             },
           ],
+          NOT: {
+            deleted: true,
+          },
         },
 
         take: 5,

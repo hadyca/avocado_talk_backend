@@ -8,6 +8,9 @@ export default {
           company: {
             id: companyId,
           },
+          NOT: {
+            deleted: true,
+          },
         },
         take: 5,
         skip: offset,

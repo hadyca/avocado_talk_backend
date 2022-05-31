@@ -4,7 +4,12 @@ export default {
   Query: {
     seeUserAllPosts: (_, { userId, offset }) =>
       client.userPost.findMany({
-        where: { userId },
+        where: {
+          userId,
+          NOT: {
+            deleted: true,
+          },
+        },
         take: 5,
         skip: offset,
         orderBy: {
