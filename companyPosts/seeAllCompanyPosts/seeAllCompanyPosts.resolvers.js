@@ -4,7 +4,7 @@ export default {
   Query: {
     seeAllCompanyPosts: (_, { offset }) =>
       client.companyPost.findMany({
-        take: 5,
+        take: 10,
         skip: offset,
         orderBy: {
           createdAt: "desc",
