@@ -8,8 +8,8 @@ export const generateSecret = (min, max) => {
 
 const sendMail = (email) => {
   const options = {
-    service: "gmail",
-    host: "smtp.gmail.com",
+    service: "naver",
+    host: "smtp.naver.com",
     port: 587,
     secure: false,
     auth: {
@@ -29,7 +29,7 @@ const sendMail = (email) => {
 
 export const sendSecretMail = (address, secret) => {
   const email = {
-    from: "rlapwgud86@gmail.com",
+    from: "rlawpgud86@naver.com",
     to: address,
     subject: "🔒Login Secret for 아보카도talk!!🔒",
     html: `<h1>hello! your login secret is ${secret}.</h1>
