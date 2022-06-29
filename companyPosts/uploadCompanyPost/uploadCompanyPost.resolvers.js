@@ -47,7 +47,7 @@ export default {
                 },
               },
             });
-            const test = await client.workingDay.create({
+            await client.workingDay.create({
               data: {
                 monday: mon,
                 tuesday: tue,
