@@ -8,7 +8,27 @@ export default {
     editCompanyPost: protectedResolver(
       async (
         _,
-        { companyPostId, fileUrl, title, content },
+        {
+          companyPostId,
+          fileUrl,
+          title,
+          mon,
+          tue,
+          wed,
+          thu,
+          fri,
+          sat,
+          sun,
+          dayOption,
+          startTime,
+          finishTime,
+          timeOption,
+          wageType,
+          wage,
+          contactNumber,
+          email,
+          content,
+        },
         { loggedInUser }
       ) => {
         try {
@@ -61,6 +81,21 @@ export default {
               },
               data: {
                 title,
+                mon,
+                tue,
+                wed,
+                thu,
+                fri,
+                sat,
+                sun,
+                dayOption,
+                startTime,
+                finishTime,
+                timeOption,
+                wageType,
+                wage,
+                contactNumber,
+                email,
                 content,
               },
             });
