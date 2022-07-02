@@ -23,6 +23,8 @@ export default {
           timeOption,
           wageType,
           wage,
+          contactNumber,
+          email,
           content,
         },
         { loggedInUser }
@@ -39,6 +41,8 @@ export default {
                 timeOption,
                 wageType,
                 wage,
+                contactNumber,
+                email,
                 content,
                 company: {
                   connect: {

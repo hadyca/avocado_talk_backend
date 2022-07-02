@@ -92,6 +92,8 @@ CREATE TABLE "CompanyPost" (
     "timeOption" BOOLEAN NOT NULL DEFAULT false,
     "wageType" TEXT NOT NULL,
     "wage" TEXT NOT NULL,
+    "contactNumber" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
     "content" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,

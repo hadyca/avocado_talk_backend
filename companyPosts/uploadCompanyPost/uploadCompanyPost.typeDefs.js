@@ -18,6 +18,8 @@ export default gql`
       timeOption: Boolean!
       wageType: String!
       wage: String!
+      contactNumber: String!
+      email: String!
       content: String!
     ): CompanyPost
   }

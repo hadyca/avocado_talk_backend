@@ -123,13 +123,15 @@ model CompanyPost {
   companyId           Int
   file                File[]
   title               String
-  workingDay          WorkingDay?
+  workingDay          WorkingDay
   dayOption           Boolean             @default(false)
   startTime           Int
   finishTime          Int
   timeOption          Boolean             @default(false)
   wageType            String
   wage                String
+  contactNumber       String
+  email               String
   content             String
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
