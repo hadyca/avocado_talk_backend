@@ -19,10 +19,10 @@ model User {
   avatarKey                   String?
   bio                         String?
   password                    String
-  following                   User[]                        @relation("FollowRelation", references: [id]) 
-  followers                   User[]                       @relation("FollowRelation", references: [id])
-  favoriteUserPosts           UserPost[]                  @relation("UserFavoriteRelation", references: [id])
-  favoriteCompanyPosts        CompanyPost[]                @relation("CompanyFavoriteRelation", references: [id])
+  following                   User[]                        @relation("FollowRelation") 
+  followers                   User[]                       @relation("FollowRelation")
+  favoriteUserPosts           UserPost[]                  @relation("UserFavoriteRelation")
+  favoriteCompanyPosts        CompanyPost[]                @relation("CompanyFavoriteRelation")
   companyPostLikes            CompanyPostLike[]
   userPostLikes               UserPostLike[]
   myCompany                   Company?                
@@ -48,7 +48,7 @@ model UserPost {
   id               Int               @id @default(autoincrement())
   user             User              @relation(fields: [userId], references: [id])
   userId           Int
-  favoritedUser    User[]             @relation("UserFavoriteRelation", references: [id])
+  favoritedUser    User[]             @relation("UserFavoriteRelation")
   file             File[]
   content          String
   category         String
@@ -118,12 +118,12 @@ model Company {
 
 model CompanyPost {
   id                  Int                  @id @default(autoincrement())
-  favoritedUser       User[]               @relation("CompanyFavoriteRelation", references: [id])
+  favoritedUser       User[]               @relation("CompanyFavoriteRelation")
   company             Company              @relation(fields: [companyId], references: [id], onDelete: Cascade)
   companyId           Int
   file                File[]
   title               String
-  workingDay          WorkingDay
+  workingDay          WorkingDay?          
   dayOption           Boolean             @default(false)
   startTime           Int
   finishTime          Int
@@ -277,7 +277,7 @@ model UserReport {
 model WorkingDay {
   id                  Int                      @id @default(autoincrement())
   companyPost         CompanyPost              @relation(fields: [companyPostId], references: [id])
-  companyPostId       Int
+  companyPostId       Int                      @unique
   monday              Boolean                  @default(false)
   tuesday             Boolean                  @default(false)
   wednesday           Boolean                  @default(false)
@@ -286,4 +286,5 @@ model WorkingDay {
   saturday            Boolean                  @default(false)
   sunday              Boolean                  @default(false)
 }
+
 // -------End of Report Part-------
