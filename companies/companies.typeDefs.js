@@ -9,7 +9,6 @@ export default gql`
     addressStep2: String!
     addressStep3: String!
     email: String!
-    sector: String!
     aboutUs: String!
     contactNumber: String!
     totalEmployees: Int!

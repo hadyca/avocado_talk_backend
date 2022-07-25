@@ -106,7 +106,6 @@ model Company {
   addressStep1   String //가장 큰 행정 구역 (시스템 제공)
   addressStep2   String //두번 째로 큰 행정 구역 (시스템 제공)
   addressStep3   String //나머지 주소 (사용자가 직접 타이핑)
-  sector         String
   email          String        
   aboutUs        String // 회사 소개
   contactNumber  String

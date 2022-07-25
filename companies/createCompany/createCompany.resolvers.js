@@ -9,7 +9,6 @@ export default {
         {
           companyName,
           email,
-          sector,
           aboutUs,
           contactNumber,
           addressStep1,
@@ -47,7 +46,6 @@ export default {
             data: {
               companyName,
               email,
-              sector,
               aboutUs,
               contactNumber,
               addressStep1,

@@ -7,7 +7,6 @@ const resolverFn = async (
   {
     companyName: newCompanyName,
     aboutUs: newAboutUs,
-    sector: newSector,
     totalEmployees: newTotalEmployees,
     email: newEmail,
     contactNumber: newContactNumber,
@@ -23,7 +22,6 @@ const resolverFn = async (
     data: {
       ...(newCompanyName && { companyName: newCompanyName }),
       ...(newAboutUs && { aboutUs: newAboutUs }),
-      ...(newSector && { sector: newSector }),
       ...(newTotalEmployees && { totalEmployees: newTotalEmployees }),
       ...(newEmail && { email: newEmail }),
       ...(newContactNumber && { contactNumber: newContactNumber }),

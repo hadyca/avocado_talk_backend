@@ -5,7 +5,6 @@ export default gql`
     editCompany(
       companyName: String
       aboutUs: String
-      sector: String
       totalEmployees: Int
       email: String
       contactNumber: String
